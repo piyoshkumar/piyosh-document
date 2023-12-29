@@ -1,0 +1,37 @@
+Open Git Bash and begin creating a username and email for working on Git Bash
+Set your username:
+git config --global user.name "FIRST_NAME LAST_NAME"
+Set your email address:
+git config --global user.email "MY_NAME@example.com"
+Step 1: Initialize the local directory as a Git repository.
+ git init 
+Step 2: Stage the files for the first commit by adding them to the local repository
+git add .
+Step 3: By “git status“ you can see the staged files after that Commit the files that you’ve staged in your local repository.
+git commit -m "First commit" 
+STEP 4 : Go to the GitHub repository and in the code, section copy the URL and In the Command prompt, add the URL for your repository where your local repository will be pushed.
+git remote add origin repository_URL
+ STEP 5 : Push the changes in your local repository to GitHub.
+git push origin master
+git push origin master --force
+
+
+
+if git init command not to be work and showing up to reinitialize then use this command
+rm -rf .git
+git stash :
+saved working directory and index state wip my-features
+git reset :
+which lets you up your code before doing a commit
+git squash :
+which allows you to combine your commits
+git rebase :
+which allows for applying changes from one branch onto other
+git diff :
+the differences between files or working tree snapshots.
+git fetch remote name
+git log
+git config --list
+which git
+git show
+git --version

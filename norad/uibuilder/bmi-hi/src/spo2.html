@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/sweetalert.js"></script>
+    <script>
+      const currentUrl2=window.location.host
+            fetch('http://' + currentUrl2 + '/mk/clear?act=spo2')
+            .then(response => {
+            if (response.ok) {
+            console.log('Clear request was successful.');
+            } else {
+            console.error('Error:', response.statusText);
+            }
+            })
+            .catch(error => {
+            // console.error('Error:', error);
+            });
+    </script>
+
+    <link rel="stylesheet" href="css/all.min.css"/>
+  </head>
+<body>
+<div class="bg-img pe-3">
+  <section class="header">
+    <div class="top-header">
+        <div class="top-in">
+          <div class="logo"><img src="images/logo.png"></div>
+        </div>
+        <div class="top-in">
+          <div class="top-in1">
+            <h4 id="uname">Faizan Ahmad</h4>
+            <p id="age">26 Y Male <strong>2365478</strong></p>
+          </div>
+          <script>
+              document.addEventListener("DOMContentLoaded", function() {
+              if (localStorage.getItem("uname") == null){
+              window.location.href = "index.html"
+              }
+              document.getElementById("uname").innerText = localStorage.getItem("uname");
+              document.getElementById("age").innerHTML = localStorage.getItem("age") + " Y " + localStorage.getItem("gender") ;
+              });
+          </script>
+          <div class="top-in2">
+            <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+            <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a></div>
+          </div>
+         
+        </div>
+    </div>
+  </section>
+
+  <section class=" middle middle-measure ">
+
+    <div class="measureicon-inn bpp">
+      <div class="measureicon-icon border-rt">
+          <p>SP02</p>
+      </div>
+      <div class="measureicon-icon">
+          <p>पल्स दर</p>
+      </div>
+    </div>
+    
+    <div class="measurehead">
+      <div class="mesuresection">
+          <div class="machine-lft spoo"><img src="images/spo2.gif"> </div>
+          <div class="desc-rt">
+              <p>सुनिश्चित करें किआपके हाथ का तापमान सामान्य है!</p>
+              <p>पल्स ऑक्सीमीटर लगाने से पहले अपने शरीर को तनावमुक्त रखें।</p>
+              <p>अपनी तर्जनी या मध्यमा उंगली को पल्स ऑक्सीमीटर में डालें</p>
+              <!-- <p>Hold finger stil and below leavel of heart</p> -->
+              <p>अपना हाथ स्थिर रखें.</p>
+          </div>
+      </div>
+
+
+      <div class="inptsection-main">
+          <div class="inptsection-in">
+              <div class="measureinput">
+                  <span>आपका SPO2 है:</span>
+                  <span><input class='form-control' id="spo" type="text" readonly></span>
+              </div>
+          </div>
+          <div class="inptsection-in">
+              <div class="measureinput">
+                  <span>आपका पल्स दर है:</span>
+                  <span><input class='form-control' id="pr" type="text" readonly></span>
+              </div>
+          </div>
+      </div>
+
+      <!-- <div class="btnsection mt-4">
+        <buton class="btnSbmt">Start</buton>
+    </div> -->
+
+    <div class="inptsection-main">
+          <div class="loaderimg">
+              <!-- <h4>Measuring...</h4> -->
+              <img id="load" src="images/VitalLoader.gif">
+          </div>
+      </div>
+        
+        <div class="btnsection">
+          <buton class="btnSbmt" id ="myskip" onclick="window.location.href ='/bmi-hi/Reports.html'">छोड़ें</buton>
+          <buton class="btnSbmt" id="mysub" onclick="storeSpo()" style="display: none;">जमा करें</buton>
+          <buton class="reload" id="reget" onclick="window.location.href ='/bmi-hi/spo2.html'" style="display:none;">ताज़ा करें</buton>
+        </div>
+    </div>
+
+  </section>
+
+  <section class="footer">
+    <div class="footer-in">
+      <div class="footer-logo"><img src="images/footerlogo.png"></div>
+      <div class="lang">
+        <div class="ft">
+          <div class="reportss">
+            <a href="#"onclick="window.location.href ='/bmi3/spo2.html'">
+              Select English
+            </a>
+          </div>
+        <!-- <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="images/flag.png">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/script.js"></script>
+<script src="js/function.js"></script> 
+<script>
+var spo = parseInt(document.getElementById("spo").value); // Initialize with the initial values from your form
+var flag=0
+var spoValues = []; // Array to store BMI values
+
+// Start the interval
+
+// Start the interval
+const intervalId = setInterval(() => {
+  getSpo2()
+}, 10);
+const intervalId2 = setInterval(() => {
+    getBmi_on()
+}, 10);
+
+function getBmi_on() {
+    const newBmi = parseInt(document.getElementById("pr").value);
+    if(newBmi != 0){
+      spoValues.push(newBmi);
+        }else{
+    }
+    
+    if ( spoValues.length > 2) {
+      spoValues.shift(); // Remove the oldest value
+    }
+ if ( spoValues.length === 2) {
+        var diff =  spoValues[1] -  spoValues[0];
+        if(Math.abs(diff) <= 5 ){
+        flag++;
+        }
+        if (flag == 100) {
+        clearInterval(intervalId);
+        clearInterval(intervalId2);
+        document.getElementById("reget").style.display = "";
+        document.getElementById("mysub").style.display = "";
+        document.getElementById("load").style.display = "none";
+    }
+    }
+
+}
+
+
+</script>   
+</body>
+</html>
+ 

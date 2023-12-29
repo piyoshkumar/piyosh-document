@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BMI</title>
+    <meta name="description" content="Node-RED uibuilder - Blank template">
+    <link rel="icon" href="../uibuilder/images/node-blue.ico">
+    <!-- Your own CSS -->
+    <link type="text/css" rel="stylesheet" href="./index.css" media="all">
+
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>-->
+    <script src="./jquery.min.js"></script>
+    <script src="./popper.min.js"></script>
+    <script src="./bootstrap.bundle.min.js"></script>
+    <script src="./moment-with-locales.js"></script>
+    <script src="./gauge.min.js"></script>
+    <style>
+        body {
+            background-color: #07102a;
+            color: #fff;
+        }
+      .btn-ctsuccess{
+    background-color: #ED9A01;
+    border-color: #ED9A01;
+    color: #000;
+    /*text-shadow: 0 0 3px #000000, 0 0 5px #000000;*/
+    /* box-shadow: 0 0 3px #e6e6e9, 0 0 5px #7d7dc5; */
+    font-weight: 600;
+    text-shadow: rgb(0, 0, 0);
+    margin-left: 1px;
+    margin-right: 1px;
+    width: 100%;
+    }
+    .btn-ctsuccess:hover{
+    /*text-shadow: 0 0 3px #ffffff, 0 0 5px #ffffff;*/
+    background-color: #B17302;
+    border-color: #ED9A01;
+    color: #fff;
+    }
+    .btnactive{
+    background-color: #B17302;
+    border-color: #ED9A01;
+    color: #07102A;
+    }
+    .setpass,.setpid,.setage,.setmob{
+    padding: 14px;
+font-size: 22px;
+width: 100%;
+    }
+    .bmi{
+        position: relative;
+        top:-20px;
+    }
+    .toggle-class {
+    background-color: red;
+    font-weight: bold;
+    }
+    
+    </style>
+</head>
+<body class="">
+     <!-- top row -->
+     <div class="container text-center">
+        <div class="row">
+            <div class="col-4">
+                <img src="criteriontech.webp" style="height: 50%; margin-top: 10px;"
+                    alt="criteriontech">
+            </div>
+            <div class="col-4">
+                <span style="font-size: 10px;color: #031473c9;" id="ips">172.16.5.240</span>
+                <h6 style="margin-top: 0px;" id="hname">BMI</h6>
+                <!-- <span>ID:0001</span> -->
+            </div>
+            <div class="col-4">
+               <span id="dates">22 Nov, 2022</span>
+                <br>
+                <span id="times">12:20:50</span>    
+            </div>
+        </div>
+    </div>
+        <!-- top row ended -->
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-4">
+                    <div class="btn btn-ctsuccess" style="color:#000;">
+                    <h6>Height</h6>
+                    <span id="h">86.2 cm</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="btn btn-ctsuccess" style="color:#000;">
+                    <h6>Weight</h6>
+                    <span id="w">95.92 Kg</span>
+                    </div>
+                </div>
+                <div class="col-4" onclick="age_gen()">
+                    <div class="btn btn-ctsuccess" style="color:#000;">
+                    <H6>Age/Gender</H6>
+                    <span id="age">31</span>/<span id="gen">male</span>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- top endeddddd -->
+        <style>
+            .whats{
+                position: fixed;
+                top: 25%;
+                right:10px;
+                height:50px;
+                width: 70px;
+                /* padding: 5px; */
+                /* margin: auto; */
+                font-size: 26px;
+                /* background-color: #ED9A01; */
+                color: #0f0 !important;
+                border-radius: 50% 0 0 50%;
+                z-index:900;
+            }
+            .hold{
+                position: fixed;
+                top: 35%;
+                right:10px;
+                height:50px;
+                width: 70px;
+                padding: 5px;
+                /* margin: auto; */
+                font-size: 26px;
+                /* background-color: #ED9A01; */
+                /* color: #000; */
+                border-radius: 50% 0 0 50%;
+                z-index:900;
+            }
+            .spo2 {
+            position: absolute;
+            top: 35%;
+            width: 100px;
+            border-radius: 0 20px 20px 0;
+            height: 60px;
+            padding-right: 10px;
+            left: 0px;
+            text-align: left;
+            z-index:900;
+            }
+            .bp {
+        position: absolute;
+        top: 25%;
+        width: 100px;
+        border-radius: 0 20px 20px 0;
+        height: 60px;
+        padding-right: 10px;
+        left: 0px;
+        text-align: left;
+        z-index:900;
+            }
+            .spo2-label,
+            .pr-label {
+            float: left;
+            clear: left;
+            }
+            
+            .spo2-value,
+            .pr-value {
+            float: right;
+            clear: right;
+            padding-right: 10px; /* Adjust this value as needed */
+            }
+            
+        </style>
+        <hr><!-- two block start -->
+        <div class="container text-center ">
+            <div class="row spo2 btn btn-ctsuccess" id="spo2_pos" id="spo2" style=""onclick="uibuilder.eventSend(event)" data-key="spo2" data-val="1">
+                <div class="spo2-label">S<sub>p</sub>O<sub>2</sub></div>
+                <div class="spo2-value" id="spo2"></div>
+                <div class="pr-label">PR</div>
+                <div class="pr-value" id="pr"></div>
+            </div>
+            <div class="row bp btn btn-ctsuccess" id="bp" onclick="uibuilder.eventSend(event)" data-key="bp" data-val="1">
+                <div class="spo2-label">Sys</div>
+                <div class="spo2-value" id="sys"></div>
+                <div class="pr-label">Dia</div>
+                <div class="pr-value" id="dia"></div>
+            </div>
+            <div class="row"  id="hold" onclick="uibuilder.eventSend(event)" data-key="hold" data-val="1">
+                <div class="hold btn btn-ctsuccess"  id="hold2" >
+                    <span>H</span>
+                </div>
+            </div>
+            <div class="row" id="WhatsApp" data-toggle="modal" data-target="#mobileModal">
+                <div class="whats btn btn-ctsuccess" >
+                    <span style="color:#00ff00 !important;"><svg viewBox="0 0 40 40" class="whatsapp-ico">
+                        <path
+                            d=" M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.13-.33.244-.73.244-1.088 0-.058 0-.144-.03-.215-.1-.172-2.434-1.39-2.678-1.39zm-2.908 7.593c-1.747 0-3.48-.53-4.942-1.49L7.793 24.41l1.132-3.337a8.955 8.955 0 0 1-1.72-5.272c0-4.955 4.04-8.995 8.997-8.995S25.2 10.845 25.2 15.8c0 4.958-4.04 8.998-8.998 8.998zm0-19.798c-5.96 0-10.8 4.842-10.8 10.8 0 1.964.53 3.898 1.546 5.574L5 27.176l5.974-1.92a10.807 10.807 0 0 0 16.03-9.455c0-5.958-4.842-10.8-10.802-10.8z"
+                            fill-rule="evenodd"></path>
+                    </svg></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <canvas id="canvas-preview"></canvas>
+                    <div class="bmi h1" id="bmi">18</div>
+                    <div class="bmi h4">BMI</div>
+                    <script>
+                      var opts = {
+            angle: 0, // The span of the gauge arc
+            lineWidth: 0.50, // The line thickness
+            radiusScale: 1, // Relative radius
+            pointer: {
+              length: 0.35, // // Relative to gauge radius
+              strokeWidth: 0.045, // The thickness
+              color: '#fff', // Fill color
+              border:'#fff',
+              borderWidth:'5'
+            },
+            limitMax: false,     // If false, max value increases automatically if value > maxValue
+            limitMin: false,     // If true, the min value of the gauge will be fixed
+            colorStart: '#C0C0DB',   // Colors
+            colorStop: '#6F6EA0',    // just experiment with them
+            strokeColor: '#EEEEEE',  // to see which ones work best for you
+            generateGradient: true,
+            highDpiSupport: true,     // High resolution support
+            // renderTicks is Optional
+            renderTicks: {
+              divisions: 0,
+              divWidth: 0,
+              divLength: 0,
+              divColor: '#EEEEEE',
+              subDivisions: 0,
+              subLength: 0,
+              subWidth: 0,
+              subColor: '#EEEEEE'
+            },
+            percentColors: [[0.0, "#ffff00"],[0.399, "#ffff00"],[0.40, "#00ff00"],[0.5556, "#00ff00"], [0.556, "#ff0000"], [1.0, "#ff0000"]]
+         
+          };
+          var target = document.getElementById('canvas-preview'); // your canvas element
+          var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+          gauge.maxValue = 45; // set max gauge value
+          gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+          gauge.animationSpeed = 32; // set animation speed (32 is default value)
+          setInterval(() => {
+            var data=document.getElementById('bmi').innerHTML;
+            gauge.set(data); // set actual value
+                }, 10);
+        //   console.log(gauge)
+                    </script>
+                    <!-- <div style="font-size:22px; margin-bottom: 10px;font-weight:600;">Body Temp</div>
+    
+                    <div class="d-flex justify-content-center align-items-center" id="bbox"
+                        style="background-color: rgba(255, 0, 0, 0.0); border:solid 2px rgb(0, 255, 0);border-radius: 25px;height: 180px;color:rgb(0, 255, 0);">
+                        <span id="bodytemp" style="font-size: 85px; font-weight: 900; ">99.00<span>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- two block ended -->
+        <div class="m-2"></div>
+
+        <div class="container">
+            <div class="row pl-5 pr-5">
+                <table class="table text-light text-center">
+                    <thead>
+                        <tr>
+                            <th>Body Fat</th>
+                            <th><span id="bfp">5 kg</span></th>
+                        </tr>
+                        <tr>
+                            <th>Basal Metabolic Rate</th>
+                            <th><span id="bmr">5 kg</span></th>
+                        </tr>
+                        <tr>
+                            <th>Total Body Water</th>
+                            <th><span id="tbw">5 kg</span></th>
+                        </tr>
+                        <tr>
+                            <th>Lean Body Mass</th>
+                            <th><span id="lbm">5 kg</span></th>
+                        </tr>
+                    </thead>
+    
+                </table>
+            </div>
+    
+        </div>
+
+        <div class="container text-center " style="border: solid 2px black; position:fixed;bottom:-5px;width:100vw;height:100px;" >
+            <div class="row" style="background-color: #ED9A01;">
+                <div class="col-6" style="padding: 0px;border:solid 2px #ED9A01;" onclick="pidsetting()">
+                    <label style="background-color: #ED9A01;  color: #07102a; font-size: 25px; font-weight: 600;width: 50vw;">PID/Mobile</label>
+                    <h5 style="color: #07102a;" ><span id="pidval2">2254135</span> / <span id="mobile2">9876543210</span></h5>
+                </div>
+                 <div class="col-6 form-row align-items-center" style="padding: 0px;border:solid 2px #ED9A01; "  onclick="uibuilder.eventSend(event)" data-key="Send" data-val="1" data-toggle="modal" data-target="#successModal">
+                    <label style="background-color: #ED9A01;color: #07102a; font-size: 25px; font-weight: 600; width: 50vw;">Print<br><span><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-printer"
+                        viewBox="0 0 16 16">
+                        <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+                        <path
+                            d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+                    </svg></span></label>
+                    
+                </div>
+            </div>
+        </div>  
+        <!-- </div> -->
+
+            
+    <!-- Modal setting Mobile Number page -->
+<div style="background: #0000006e;"class="modal fade" id="mobileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+      <div class="modal-content" style="background: #07102a;">
+               <div class="modal-body">
+            <div class="container-fluid text-center">
+                <h5 class="modal-title" id="exampleModalLabel"  >Enter WhatsApp Number</h5>
+                <div class="mt-5"></div>
+                <div class="container">
+                    <div class="col-12 text-center" id="alertmsg3"></div>
+                <div class="mt-4"></div>
+                <div class="row">
+                <div class="col-12"><input class="form-control setpid" type="text" id="mobile"></div>
+            </div>
+            <div class="mt-4"></div>
+            <div class="row">
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">1</span></div>   
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">2</span></div>   
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">3</span></div>
+                </div>
+                <div class="mt-4"></div>
+                <div class="row">
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">4</span></div>   
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">5</span></div>   
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">6</span></div>
+            </div>
+            <div class="mt-4"></div>
+            <div class="row">
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">7</span></div>   
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">8</span></div>   
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">9</span></div>
+            </div>
+            <div class="mt-4"></div>
+            <div class="row">
+                <div class="col-4"><span class="setmob btn btn-danger">Clear</span></div>   
+                <div class="col-4"><span class="setmob btn btn-ctsuccess">0</span></div>   
+                <div class="col-4"><span class="setmob btn btn-success" id="mob_set_global" data-key="mobile" data-val="9876543210" >OK</span></div>
+                  
+                    
+                </div>
+                </div>
+                <div class="mt-5"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-danger">close</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal ended -->
+  
+ <!-- Modal setting first page -->
+ <div style="background: #0000006e;"class="modal fade" id="ageGenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+      <div class="modal-content" style="background: #07102a;">
+        <!-- <div class="modal-header text-center" > -->
+          
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        <!-- </div> -->
+        <div class="modal-body">
+            <div class="container-fluid text-center">
+                <h5 class="modal-title" id="exampleModalLabel"  >Select Age And Gender</h5>
+                <div class="mt-5"></div>
+                <div class="row">
+                    <div class="col">
+                       <div class="container">
+                            <div class="col-12 text-center" id="alertmsgage"></div>
+                        <div class="mt-4"></div>
+                        <div class="row">
+                        <div class="col-12"><input class="form-control setage" type="text" data-age="12021" id="ageval" placeholder="Enter Your Age"></div>
+                    </div>
+                    <div class="mt-4"></div>
+                    <div class="row">
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">1</span></div>   
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">2</span></div>   
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">3</span></div>
+                        </div>
+                        <div class="mt-4"></div>
+                        <div class="row">
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">4</span></div>   
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">5</span></div>   
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">6</span></div>
+                    </div>
+                    <div class="mt-4"></div>
+                    <div class="row">
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">7</span></div>   
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">8</span></div>   
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">9</span></div>
+                    </div>
+                    <div class="mt-4"></div>
+                    <div class="row">
+                        <div class="col-4"><span class="setage btn btn-danger">Clear</span></div>   
+                        <div class="col-4"><span class="setage btn btn-ctsuccess">0</span></div>   
+                        <div class="col-4"><span class="setage btn btn-success" id="age_set_global" data-key="age" data-val="12021">OK</span></div>
+                          
+                            
+                        </div>
+                        <div class="mt-4 row alert alert alert-success">
+                            <div class="col-4"><span class=" btn btn-ctsuccess">Gender</span></div>
+                            <div class="col-4"><span class="setgender btn btn-ctsuccess" data-key="gender" data-val="1">Male</span></div>
+                            <div class="col-4"><span class="setgender btn btn-ctsuccess" data-key="gender" data-val="0">Female</span></div>
+                        </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="mt-5"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-danger">close</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal ended -->
+
+
+    <!-- Modal setting first page -->
+<div style="background: #0000006e;"class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+      <div class="modal-content" style="background: #07102a;">
+        <!-- <div class="modal-header text-center" > -->
+          
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        <!-- </div> -->
+        <div class="modal-body">
+            <div class="container-fluid text-center">
+                <h5 class="modal-title" id="exampleModalLabel"  >Baby Warmer Setting</h5>
+                <div class="mt-5"></div>
+                <div class="row">
+                    <div class="col-6">
+                    <span class="btn btn-ctsuccess" onclick="pidsetting()" style="height: 100px;line-height: 5;">
+                        PID
+                    </span>
+                    </div>
+                    <div class="col-6">
+                        <span class="btn btn-ctsuccess" onclick="settempsetting()" style="height: 100px;line-height: 5;">
+                            SET TEMPERATURE
+                        </span></div>
+                </div>
+                <div class="mt-5"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-danger">close</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal ended -->
+<!-- Modal setting PID page -->
+<div style="background: #0000006e;"class="modal fade" id="pidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+      <div class="modal-content" style="background: #07102a;">
+        <!-- <div class="modal-header text-center" > -->
+          
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        <!-- </div> -->
+        <div class="modal-body">
+            <div class="container-fluid text-center">
+                <h5 class="modal-title" id="exampleModalLabel"  >SET PID</h5>
+                <div class="mt-5"></div>
+                <div class="container">
+                    <div class="col-12 text-center" id="alertmsg"></div>
+                <div class="mt-4"></div>
+                <div class="row">
+                <div class="col-12"><input class="form-control setpid" type="text" id="pidval"></div>
+            </div>
+            <div class="mt-4"></div>
+            <div class="row">
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">1</span></div>   
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">2</span></div>   
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">3</span></div>
+                </div>
+                <div class="mt-4"></div>
+                <div class="row">
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">4</span></div>   
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">5</span></div>   
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">6</span></div>
+            </div>
+            <div class="mt-4"></div>
+            <div class="row">
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">7</span></div>   
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">8</span></div>   
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">9</span></div>
+            </div>
+            <div class="mt-4"></div>
+            <div class="row">
+                <div class="col-4"><span class="setpid btn btn-danger">Clear</span></div>   
+                <div class="col-4"><span class="setpid btn btn-ctsuccess">0</span></div>   
+                <div class="col-4"><span class="setpid btn btn-success" id="pid_set_global" data-key="pid" data-val="12021">OK</span></div>
+                  
+                    
+                </div>
+                </div>
+                <div class="mt-5"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-danger">close</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal ended -->
+ <!-- Modal setting SET TEMP page -->
+ <div style="background: #0000006e;"class="modal fade" id="settempModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+      <div class="modal-content" style="background: #07102a;">
+        <!-- <div class="modal-header text-center" > -->
+          
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        <!-- </div> -->
+        <div class="modal-body">
+            <div class="container-fluid text-center">
+                <h5 class="modal-title" id="exampleModalLabel"  >TEMPERATURE SETTING</h5>
+                <div class="mt-3"></div>
+                 <div class="col-12 text-center" id="alertmsg2"></div>
+                 <div class="mt-4"></div>
+                <div class="row">
+                    <div class="col-12"><span id ="modsettemp" class="btn btn-success btn-lg">98.00</span></div>
+                </div>
+                <div class="mt-2"></div>
+                <div class="row">
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">95</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">95.5</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">96</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">96.5</span></div>
+                  
+                </div>
+                <div class="mt-4 row">
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">97</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">97.5</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">98</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">98.5</span></div>
+                    
+                </div>
+                <div class="mt-4 row">
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">99</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">99.5</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">100</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">100.5</span></div>
+                </div>
+                <div class="mt-4 row">
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">101</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">101.5</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">102</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">102.5</span></div>
+                    
+                </div>
+                <div class="mt-4 row">
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">103</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">103.5</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">104</span></div>
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">104.5</span></div>
+                </div>
+                <div class="mt-4 row">
+                    <div class="col-3"><span class="settemps btn btn-ctsuccess">105</span></div>
+                </div>
+                <div class="mt-4 row alert alert alert-success">
+                    <div class="col-4"><span class=" btn btn-ctsuccess">UNIT</span></div>
+                    <div class="col-4"><span class="setunit btn btn-ctsuccess">°F</span></div>
+                    <div class="col-4"><span class="setunit btn btn-ctsuccess">°C</span></div>
+                </div>
+
+                <div class="mt-5"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-danger">close</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal ended --> 
+    <!--<span class="btn btn-outline-success" style="padding: 2px; font-size: 8px;" onclick="resetZoom1()">Reset Zoom</span>  -->
+    <!-- footer ended -->
+   
+    <!-- Success Message Popup (Modal) -->
+    <div style="background: #0000006e;" class="modal fade" id="successModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background: #07102a;">
+                   <div class="modal-header" style="background: #00a600;">
+                    <h3 class="modal-title" id="successModalLabel">Success!</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Your data was sent successfully.</p>
+                    <p>Please Wait For Print....</p>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<input type="hidden" id="triger_hold" data-key="hold" data-val="1" onclick="uibuilder.eventSend(event)">
+
+<script>
+
+  function resetZoom1() {
+    myChart.resetZoom();
+  }
+   function setting() {
+       $("#password").val('');
+//   alert("hi");
+  $("#passModal").modal("show");
+  }
+
+
+  function age_gen() {
+    $("#ageGenModal").modal("show");
+    $("#ageval").val("0");
+    
+  }
+  function setting2() {
+   //alert("hi");
+  $("#passModal").modal("toggle");
+  $("#settingModal").modal("show");
+  }
+  function pidsetting() {
+    // $("#settingModal").modal("toggle");
+    $("#pidModal").modal("show");
+    var pid=$("#pidval2").text();
+    // alert(pid)
+    $("#pidval").val(pid);
+    $("#alertmsg2").html("");
+  }
+  function settempsetting() {
+    $("#settingModal").modal("toggle");
+    $("#settempModal").modal("show");
+     $("#alertmsg2").html("");
+  }
+  function ftoc(val){
+     return (val-32)*5/9;
+  }
+
+  $("#hold").click(function(){
+      $("#hold2").toggleClass('toggle-class');
+  })
+
+  $(".settemps").click(function(){
+      var temp=$(this).text();
+      //alert()
+      temp=temp.toString();
+    //   fnSendToNR2(temp,"setTemp");
+       $("#alertmsg2").html('<span class="alert alert-success">Set Temperature Successfully</span>');
+  })
+  $(".setgender").click(function(){
+      var unit=$(this).text();
+      //fnSendToNR2(unit,"setUnit");
+      $("#gen").text(unit);
+      uibuilder.eventSend(event)
+      $("#alertmsgage").html('<span class="alert alert-success">Set Gender Successfully</span>');
+      setTimeout(function () {
+                     $('#alertmsgage').fadeOut('slow');
+                     $('#alertmsgage').html("");
+                     $('#alertmsgage').fadeIn();
+                 }, 2000);
+  })
+  $(".setpid").click(function(e){   
+    var number = $(this).text();
+    
+    if(number == "Clear"){
+        n=0;
+        $("#pidval").val(n);
+    }else if(number == "OK"){
+        var d=$("#pidval").val();
+        d=d.toString();
+        //alert(d);
+        $("#pidval2").text(d);
+        $("#pid_set_global").attr("data-val",d);
+        // fnSendToNR2(d,"setAge");
+        uibuilder.eventSend(event)
+        
+        // fnSendToNR2(d,"setPid");
+        $("#alertmsg").html('<span class="alert alert-success">Set PID Successfully</span>');
+    }else {
+        n = parseInt(number);
+        var d=$("#pidval").val();
+        d=d*10+n   ;
+        $("#pidval").val(d);
+        
+    }
+    
+  })
+
+  $(".setage").click(function(e){   
+    var number = $(this).text();
+    
+    if(number == "Clear"){
+        n=0;
+        $("#ageval").val(n);
+    }else if(number == "OK"){
+        var d=$("#ageval").val();
+        
+        d=d.toString();
+        // alert(d);
+        if (parseInt(d) > 5){
+        $("#age").text(d);
+        $("#age_set_global").attr("data-val",d);
+        // fnSendToNR2(d,"setAge");
+        uibuilder.eventSend(event)
+        $("#alertmsgage").html('<span class="alert alert-success">Set Age Successfully</span>');
+        }else{
+        $("#ageval").val("0");
+        // fnSendToNR2(d,"setPid");
+        $("#alertmsgage").html('<span class="alert alert-success">Please Enter Age Over 5 years</span>'); 
+        }
+        setTimeout(function () {
+                     $('#alertmsgage').fadeOut('slow');
+                     $('#alertmsgage').html("");
+                     $('#alertmsgage').fadeIn();
+                 }, 2000);
+        
+    }else {
+        n = parseInt(number);
+        var d=$("#ageval").val();
+        d=d*10+n   ;
+        if(d >= 100){
+            $("#alertmsgage").html('<span class="alert alert-success">Enter Age Under 100 years</span>');
+        setTimeout(function () {
+                     $('#alertmsgage').fadeOut('slow');
+                     $('#alertmsgage').html("");
+                     $('#alertmsgage').fadeIn();
+                 }, 2000);
+            d=0   
+        }
+        $("#ageval").val(d);
+        
+    }
+    
+  })
+  
+   $(".setmob").click(function(e){   
+    var number = $(this).text();
+    // var pass = "9876543210";
+    if(number == "Clear"){
+        n=0;
+        $("#mobile").val('');
+    }else if(number == "OK"){
+        var d=$("#mobile").val();
+        d=d.toString();
+        $("#mobile").text(d);
+        $("#mob_set_global").attr("data-val",d);
+        // fnSendToNR2(d,"setAge");
+        uibuilder.eventSend(event)
+        
+        // fnSendToNR2(d,"setPid");
+        $("#alertmsg3").html('<span class="alert alert-success">Mobile Number Set.</span>');
+        $('#mobile').val("");
+        // $('#mobileModal').modal("hide")
+        // $("#alertmsg3").html('');
+        // // if(d == pass){
+        //   setting2();   
+        // }else{
+            
+        //      $("#alertmsg3").html('<span class="alert alert-danger">Wrong Password Try Again!!!</span>');  
+        //      $("#password").val("");
+        //       setTimeout(function () {
+        //              $('#alertmsg3').fadeOut('slow');
+        //              $('#alertmsg3').html("");
+        //              $('#alertmsg3').fadeIn();
+        //          }, 2000);
+        // }
+        //alert(d);
+        //fnSendToNR2(d,"setPid");
+        //$("#alertmsg").html('<span class="alert alert-success">Set PID Successfully</span>');
+    }else {
+        n = number;
+        var d=$("#mobile").val();
+        d=d+n   ;
+        $("#mobile").val(d);
+        
+    }
+    
+  })
+// Get the current date and time
+// msg.payload = formattedDate
+function setdt(){
+    var formattedDate = moment().format('Do,MMM YYYY*h:mm:ss a')
+    var fdate = formattedDate.split("*")
+    $("#dates").text(fdate[0]);
+    $("#times").text(fdate[1]);
+
+}
+//  setTimeout();
+ setInterval(setdt,1000)
+ function open_form(){
+    var h=$("#h").text();
+    var age=$("#age").text();
+    var mobile=$("#mobile2").text();
+    var pid=$("#pidval2").text();
+    console.log(mobile)
+    if(parseInt(h) > 0){
+        if(parseInt(mobile) == 0){
+            // $("#mobile").val("000000000")
+            $("#mobileModal").modal("show");
+        }
+        // if(parseInt(age)==0){
+        // $("#ageGenModal").modal("show");
+        // }
+        // if(parseInt(pid) == 0){
+        // $("#pidModal").modal("show");
+
+        // }
+    }
+    }
+
+ 
+//  setInterval(open_form,100);
+
+</script>
+    
+
+
+    <!-- <button onclick="fnSendToNR('A message from the sharp end!')">Send a msg back to Node-RED</button> -->
+    <!-- <button onclick="uibuilder.eventSend(event)" data-type="eventSend" data-foo="Bah">eventSend</button> -->
+    <!-- <pre id="msg" class="syntax-highlight">Waiting for a message from Node-RED</pre> -->
+
+    <!-- #region Supporting Scripts. These MUST be in the right order. Note no leading / -->
+    <script src="../uibuilder/vendor/socket.io/socket.io.js">/* REQUIRED: Socket.IO is loaded only once for all instances. Without this, you don't get a websocket connection */</script>
+    <script src="../uibuilder/uibuilderfe.min.js">/* REQUIRED: remove 'min.' to use dev version */</script>
+    <script src="./index.js">/* OPTIONAL: Put your custom code in that */</script>
+    <!-- #endregion -->
+
+</body></html>

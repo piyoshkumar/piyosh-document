@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/sweetalert.js"></script>
+    <script>
+        const currentUrl2 = window.location.host
+        fetch('http://' + currentUrl2 + '/mk/clear?act=bp')
+            .then(response => {
+                if (response.ok) {
+                    console.log('Clear request was successful.');
+                } else {
+                    console.error('Error:', response.statusText);
+                }
+            })
+            .catch(error => {
+                // console.error('Error:', error);
+            });
+        fetch('http://' + currentUrl2 + '/mk/clear?act=bmi')
+            .then(response => {
+                if (response.ok) {
+                    console.log('Clear request was successful.');
+                } else {
+                    console.error('Error:', response.statusText);
+                }
+            })
+            .catch(error => {
+                // console.error('Error:', error);
+            });
+        fetch('http://' + currentUrl2 + '/mk/clear?act=spo2')
+            .then(response => {
+                if (response.ok) {
+                    console.log('Clear request was successful.');
+                } else {
+                    console.error('Error:', response.statusText);
+                }
+            })
+            .catch(error => {
+                // console.error('Error:', error);
+            });
+    </script>
+
+    <link rel="stylesheet" href="css/all.min.css" />
+</head>
+
+<body>
+    <div class="bg-img pe-3">
+        <section class="header">
+            <div class="top-header">
+                <div class="top-in">
+                    <div class="logo"><img src="images/logo.png"></div>
+                </div>
+                <div class="top-in">
+                    <div class="top-in1">
+                        <h4 id="uname">Faizan Ahmad</h4>
+                        <p id="age">26 Y Male <strong>2365478</strong></p>
+                    </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            if (localStorage.getItem("uname") == null){
+                            window.location.href = "index.html"
+                            }
+                            document.getElementById("uname").innerText = localStorage.getItem("uname");
+                            document.getElementById("age").innerHTML = localStorage.getItem("age") + " Y " + localStorage.getItem("gender");
+                        });
+                    </script>
+                    <div class="top-in2">
+                        <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+                        <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class=" middle middle-measure ">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                        type="button" role="tab" aria-controls="home" aria-selected="true" >
+
+                        <div class="measureicon-inn1">
+                            <div class="measureicon-icon border-rt">
+                                <p>Height</p>
+                            </div>
+                            <div class="measureicon-icon border-rt">
+                                <p>Weight</p>
+                            </div>
+                            <div class="measureicon-icon">
+                                <p>BMI</p>
+                            </div>
+                        </div>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                        type="button" role="tab" aria-controls="profile" aria-selected="false" >
+                        <div class="measureicon-inn1">
+                            <div class="measureicon-icon">
+                                <p>BP</p>
+                            </div>
+                        </div>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                        type="button" role="tab" aria-controls="contact" aria-selected="false" >
+                        <div class="measureicon-inn1">
+                            <div class="measureicon-icon border-rt">
+                                <p>SPO2</p>
+                            </div>
+                            <div class="measureicon-icon">
+                                <p>PR</p>
+                            </div>
+                        </div>
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                <!-- -------------------Tab Section 1---------------- -->
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="measurehead">
+                        <div class="mesuresection">
+                            <div class="machine-lft"><img src="images/bmianimation.gif"> </div>
+                            <div class="desc-rt">
+                                <p>Please take off your shoes and stand on the machine</p>
+                                <p>Legs straight, arms at sides and shoulders at level.</p>
+                                <p>Look straight ahead, keeping the line of sight parallel to the screen.</p>
+                                <p id="flg" style="display: none;"></p>
+                            </div>
+                        </div>
+
+                        <div class="measuretime">
+                            <div class="measuretime-inn">
+                                <p>Please hold your head upright upto 3 sec</p>
+                            </div>
+                            <div class="measuretime-inn">
+                                <img src="images/step.gif">
+                            </div>
+                        </div>
+
+                        <div class="inptsection-main">
+                            <div class="inptsection-in">
+                                <div class="measureinput">
+                                    <span>Your height is :</span>
+                                </div>
+                                <div class="measureinput">
+                                    <span><input class='form-control' id="height1" type="text" readonly> </span>
+                                </div>
+                            </div>
+                            <div class="inptsection-in">
+                                <div class="measureinput">
+                                    <span>Your weight is :</span>
+                                </div>
+                                <div class="measureinput">
+                                    <span><input class='form-control' id="weight1" type="text" readonly></span>
+                                </div>
+                            </div>
+                            <div class="inptsection-in">
+                                <div class="measureinput">
+                                    <span>Your BMI :</span>
+                                </div>
+                                <div class="measureinput">
+                                    <span><input class='form-control' id="bmi1" type="text" readonly></span>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="temp">
+                        <!-- 
+                <div class="btnsection mt-4">
+                    <buton class="btnSbmt">Start</buton>
+                </div> -->
+                        <div class="inptsection-main">
+                            <div class="loaderimg">
+                                <!-- <h4>Measuring...</h4> -->
+                                <img id = "load1" src="images/VitalLoader.gif">
+                            </div>
+                        </div>
+
+
+                        <div class="btnsection">
+                            <buton class="btnSbmt" id="myskip1" onclick="window.location.href ='/bmi3/Reports.html'">Skip
+                            </buton>
+                            <buton class="btnSbmt" id="mysub1" onclick="storeBmi()" style="display: none;">Submit</buton>
+                            <buton class="reload" id="reget1" onclick="window.location.href ='/bmi3/height.html'"
+                                style="display: none;">Refresh</buton>
+                        </div>
+                    </div>
+                </div>
+                <!-- ------------------Tab Section 2  ------------------ -->
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="measurehead">
+                        <div class="mesuresection">
+                            <div class="machine-lft  bpmac"><img src="images/bpmachine.gif"> </div>
+                            <div class="desc-rt">
+                                <p>Make sure the arm support is in the correct position.</p>
+                                <p>Place the cuff one inch above the bend of the elbow.</p>
+                                <p>Tighten the cuffs</p>
+                                <p>Press the start button on the BP machine and remain still.</p>
+                            </div>
+                        </div>
+
+
+
+                        <div class="inptsection-main">
+                            <div class="inptsection-in">
+                                <div class="measureinput">
+                                    <span>Your BPsys / BPdia :</span>
+                                </div>
+                                <div class="measureinput">
+                                    <span><input class='form-control' id="bp" type="text" readonly></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="btnsection mt-4">
+                    <buton class="btnSbmt">Start</buton>
+                </div> -->
+
+                        <div class="inptsection-main">
+                            <div class="loaderimg">
+                                <!-- <h4>Measuring...</h4> -->
+                                <img id="load2" src="images/VitalLoader.gif">
+                            </div>
+                        </div>
+
+                        <div class="btnsection">
+                            <buton class="btnSbmt" id="myskip2" onclick="window.location.href ='/bmi3/Reports.html'">Skip
+                            </buton>
+                            <buton class="btnSbmt" id="mysub2" onclick="storeBp()" style="display: none;">Submit</buton>
+                            <!-- <buton class="btnSbmt" id ="mysub" onclick="storeBmi()" style="display: none;">Submit</buton> -->
+                            <buton class="reload" id="reget2" onclick="window.location.href ='/bmi3/bp.html'"
+                                style="display:none;">Refresh</buton>
+                        </div>
+                    </div>
+                </div>
+                <!-- ------------------Tab Section 3  ------------------ -->
+
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <div class="measurehead">
+                        <div class="mesuresection">
+                            <div class="machine-lft spoo"><img src="images/spo2.gif"> </div>
+                            <div class="desc-rt">
+                                <p>Make sure the temperature of your hand is normal!</p>
+                                <p>Before applying the pulse oximeter, keep your body relaxed.</p>
+                                <p>Insert your index or middle finger into the pulse oximeter</p>
+                                <p>Hold finger stil and below leavel of heart</p>
+                                <p>Keep your hand steady.</p>
+                            </div>
+                        </div>
+
+
+                        <div class="inptsection-main">
+                            <div class="inptsection-in">
+                                <div class="measureinput">
+                                    <span>Your SPO2 is :</span>
+                                    <span><input class='form-control' id="spo" type="text" readonly></span>
+                                </div>
+                            </div>
+                            <div class="inptsection-in">
+                                <div class="measureinput">
+                                    <span>Your PR is :</span>
+                                    <span><input class='form-control' id="pr" type="text" readonly></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="btnsection mt-4">
+                    <buton class="btnSbmt">Start</buton>
+                </div> -->
+
+                        <div class="inptsection-main">
+                            <div class="loaderimg">
+                                <!-- <h4>Measuring...</h4> -->
+                                <img id="load3" src="images/VitalLoader.gif">
+                            </div>
+                        </div>
+
+                        <div class="btnsection">
+                            <buton class="btnSbmt" id="myskip3" onclick="window.location.href ='/bmi3/Reports.html'">Skip
+                            </buton>
+                            <buton class="btnSbmt" id="mysub3" onclick="storeSpo()" style="display: none;">Submit</buton>
+                            <buton class="reload" id="reget3" onclick="window.location.href ='/bmi3/spo2.html'"
+                                style="display:none;">Refresh</buton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="footer">
+            <div class="footer-in">
+                <div class="footer-logo"><img  src="images/footerlogo.png"></div>
+
+                <div class="lang">
+                    <div class="ft">
+
+                        <div class="reportss">
+                            <a href="#" onclick="window.location.href ='/bmi-hi/VitalsMeasurement.html'">
+                                हिंदी चुनें
+                            </a>
+                        </div>
+                        <!-- <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="images/flag.png">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul>
+        </div> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="js/script.js"></script>
+    <script src="js/function.js"></script>
+    <script>
+       const bmiinter = setInterval(() => {
+            checkBmiAndRunFunction()  
+            // checkBpAndRunFunction() 
+            // checkSpoAndRunFunction()
+        }, 100);
+        const bpinter = setInterval(() => {
+            // checkBmiAndRunFunction()  
+            checkBpAndRunFunction() 
+            // checkSpoAndRunFunction()
+        }, 100);
+        const spointer = setInterval(() => {
+            // checkBmiAndRunFunction()  
+            // checkBpAndRunFunction() 
+            checkSpoAndRunFunction()
+        }, 100);
+//         act="bmi"
+//         function setbmi(){
+//             act ="bmi"
+//         }
+//         function setbp(){
+//             act = "bp"
+//         }
+//         function setspo(){
+//             act = "spo"
+//         }
+// while(true){
+
+//     if(act == "bmi"){
+        var flag = 0
+        var h1=0;
+        var w1=0;
+        var bmi1=0;
+        var bmiValues = [];
+        const intervalId2 = setInterval(() => {
+            setdata()
+            getBmi_on()
+        }, 10);
+        function setdata(){
+        var data=document.getElementById("temp").value.split(",")
+        document.getElementById("height1").value=data[0] // Initialize with the initial values from your form
+        document.getElementById("weight1").value=data[1] // Initialize with the initial values from your form
+        document.getElementById("bmi1").value=data[2] // Initialize with the initial values from your form
+        }
+        function getBmi_on() {
+            const newBmi = parseFloat(document.getElementById("bmi1").value);
+            if (newBmi != 0) {
+                bmiValues.push(newBmi);
+            } else {
+            }
+            
+            if (bmiValues.length > 2) {
+                bmiValues.shift(); // Remove the oldest value
+            }
+            if (bmiValues.length === 2) {
+                var diff = bmiValues[1] - bmiValues[0];
+                if (Math.abs(diff) <= 0.5) {
+                    flag++;
+                    console.log(flag)
+                    // document.getElementById("flg").innerText=flag
+                }
+                if (flag == 500) {
+                    clearInterval(bmiinter)
+                    clearInterval(intervalId2);
+                    document.getElementById("height1").value=h1 // Initialize with the initial values from your form
+                    document.getElementById("weight1").value=w1 // Initialize with the initial values from your form
+                    document.getElementById("bmi1").value=bmi1 // Initialize with the initial values from your form
+                    document.getElementById("reget1").style.display = "";
+                    document.getElementById("mysub1").style.display = "";
+                    document.getElementById("load1").style.display = "none";
+                }else{
+                    console.log(flag)
+                    h1 = parseFloat(document.getElementById("height1").value); // Initialize with the initial values from your form
+                    w1 = parseFloat(document.getElementById("weight1").value); // Initialize with the initial values from your form
+                    bmi1 = parseFloat(document.getElementById("bmi1").value); // Initialize with the initial values from your form
+                }
+            }
+            
+        }
+        
+        var bp = ""
+       setInterval(() => {
+            // getBp()
+            bp = document.getElementById("bp").value; // Initialize with the initial values from your form
+            bp = bp.split("/");
+            if (bp[1] > 0) {
+                clearInterval(bpinter)
+                document.getElementById("reget2").style.display = "";
+                document.getElementById("mysub2").style.display = "";
+                document.getElementById("load2").style.display = "none";
+            }
+        }, 100);
+        
+        var flag1 = 0
+        var spoValues = []; // Array to store BMI values
+        
+        const iintervalId2 = setInterval(() => {
+            getBmi_oni()
+        }, 10);
+        
+        function getBmi_oni() {
+            const newBmi = parseInt(document.getElementById("pr").value);
+            if (newBmi != 0) {
+                spoValues.push(newBmi);
+            } else {
+            }
+            
+            if (spoValues.length > 2) {
+                spoValues.shift(); // Remove the oldest value
+            }
+            if (spoValues.length === 2) {
+                var diff = spoValues[1] - spoValues[0];
+                if (Math.abs(diff) <= 5) {
+                    flag1++;
+                }
+                if (flag1 == 100) {
+                    clearInterval(spointer);
+                    clearInterval(iintervalId2);
+                    document.getElementById("reget3").style.display = "";
+                    document.getElementById("mysub3").style.display = "";
+                    document.getElementById("load3").style.display = "none";
+                }
+            }
+            
+        }
+
+    
+    
+    
+    
+    
+    </script>
+    </body>
+    
+</html>

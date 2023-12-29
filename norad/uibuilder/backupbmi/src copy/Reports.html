@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
+  </head>
+<body>
+<div class="bg-img pe-3">
+  <section class="header">
+    <div class="top-header">
+        <div class="top-in">
+          <div class="logo"><img src="images/logo.png" ></div>
+        </div>
+        <div class="top-in">
+          <!-- <img src="images/1.png"style="width:20px;"> -->
+          <div class="top-in1">
+            <h4 id="uname">Faizan Ahmad</h4>
+            <p id="age">26 Y Male <strong>2365478</strong></p>
+          </div>
+          <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                    document.getElementById("uname").innerText = localStorage.getItem("uname");
+                    document.getElementById("age").innerHTML = localStorage.getItem("age") + " Y " + localStorage.getItem("gender");
+                    });
+          </script>
+          <div class="top-in2">
+            <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+            <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a></div>
+          </div>
+         
+        </div>
+    </div>
+  </section>
+
+   
+  <section class="middle">
+    <h3 class="welcometxt">Select any vital below to start measuring.</h3>
+    <div class="reportsection-main">
+
+        <div class="reportsection-in">
+          <div class="d-flex reportsct">
+            <div class="height-White" onclick="window.location.href='height.html'">
+              <div class="ht-itms">
+                <div class="ht-itms2">
+                  <img src="images/Value-height.png">
+                  <p>Height</p>
+                </div>
+                <div class="ht-itms2">
+                    <span class="now"> </span>
+                </div>
+              </div>
+              <div class="ht-itms">
+                  <div class="ht-itms2">
+                    <span class="itm-value" style="color: #F29C1F;" id="height">175</span>
+                    <span class="itm-unit">cm</span>
+                  </div>
+                  <div class="ht-itms2">
+                    
+                </div>
+              </div>
+            </div>
+
+            <div class="height-White" onclick="window.location.href='height.html'">
+              <div class="ht-itms">
+                <div class="ht-itms2">
+                  <img src="images/Value-bathroom-scale.png">
+                  <p>Weight</p>
+                </div>
+                <div class="ht-itms2">
+                    <span class="now"> </span>
+                </div>
+              </div>
+              <div class="ht-itms">
+                  <div class="ht-itms2">
+                    <span class="itm-value" style="color: #4A7CC9;" id="Weight">78</span>
+                    <span class="itm-unit">Kg</span>
+                  </div>
+                  <div class="ht-itms2">
+
+                </div>
+              </div>
+            </div>
+             
+          </div>
+
+          <div class="d-flex reportsct">
+            <div class="height-White" onclick="window.location.href='height.html'">
+              <div class="ht-itms">
+                <div class="ht-itms2">
+                  <img src="images/Value-bmi.png">
+                  <p>BMI</p>
+                </div>
+                <div class="ht-itms2">
+                    <span class="now"> </span>
+                </div>
+              </div>
+              <div class="ht-itms">
+                  <div class="ht-itms2">
+                    <span class="itm-value" style="color: #4AAFA3" id="bmi">32.5</span>
+                    <span class="itm-unit">kg/m<sup>2</sup></span>
+                  </div>
+                  <div class="ht-itms2">
+                </div>
+              </div>
+            </div>
+
+            <div class="height-White" onclick="window.location.href='spo2.html'">
+              <div class="ht-itms">
+                <div class="ht-itms2">
+                  <img src="images/Value-pulse.png">
+                  <p>Pulse Rate</p>
+                </div>
+                <div class="ht-itms2">
+                    <span class="now">
+                      <!-- <i class="fa fa-heart"></i> -->
+                      </span>
+                </div>
+              </div>
+              <div class="ht-itms">
+                  <div class="ht-itms2">
+                    <span class="itm-value" style="color: #03A8DD;" id="pr">86</span>
+                    <span class="itm-unit">BPM</span>
+                  </div>
+                  <!-- <div class="ht-itms2">
+                    <span class="now">Now</span>
+                </div> -->
+              </div>
+            </div>
+             
+          </div>
+
+
+          <div class="d-flex reportsct">
+            <div class="height-White" onclick="window.location.href='bp.html'">
+              <div class="ht-itms">
+                <div class="ht-itms2">
+                  <img src="images/Value-blood-pressure.png">
+                  <p>Blood Pressure</p>
+                </div>
+                <div class="ht-itms2">
+                    <span class="now"> </span>
+                </div>
+              </div>
+              <div class="ht-itms">
+                  <div class="ht-itms2">
+                    <span class="itm-value" style="color: #EF5A56" id="bp">119/87</span>
+                    <span class="itm-unit">mmHg</span>
+                  </div>
+                  <div class="ht-itms2">
+
+                </div>
+              </div>
+            </div>
+
+            <div class="height-White" onclick="window.location.href='spo2.html'">
+              <div class="ht-itms">
+                <div class="ht-itms2">
+                  <img src="images/Value-heart-rate-monitor.png">
+                    <p>SPO2</p>
+                </div>
+                <div class="ht-itms2">
+                   
+                </div>
+              </div>
+              <div class="ht-itms">
+                  <div class="ht-itms2">
+                    <span class="itm-value" style="color: #00BFCB;" id="spo">97</span>
+                    <span class="itm-unit">%</span>
+                  </div>
+                  <!-- <div class="ht-itms2">
+                    <span class="now">Now</span>
+                </div> -->
+              </div>
+            </div>
+             
+          </div>   
+        </div>
+
+        <div class="col-btn">
+          <div class="bodyfat  bg11">
+              <div class="bodyfat-in">
+                  <img src="images/body-fat.png">
+                  Body Fat(%) :
+              </div>
+              <div class="bodyfat-in" id="tbf">17</div>
+          </div>
+          <div class="bodyfat  bg2">
+              <div class="bodyfat-in">
+                  <img src="images/Value-bmi.png">
+                  BMR (Kcl):
+              </div>
+              <div class="bodyfat-in" id="bmr">17</div>
+          </div>
+          <div class="bodyfat  bg3">
+              <div class="bodyfat-in">
+                  <img src="images/human-body .png">
+                  Body Water (Liter):
+              </div>
+              <div class="bodyfat-in" id="tbw">73</div>
+          </div>
+        </div>
+    </div>
+
+  </section>
+
+  <section class="footer">
+    <div class="footer-in">
+      <div class="footer-logo">
+        <img src="images/footerlogo.png">
+      </div>
+      
+      <div class="lang">
+        <div class="ft">
+          <div class="reportss">
+            <a href="#" onclick="prints()">
+              <img src="images/print.png"> Save & Print
+              </a>
+              </div>
+        </div>
+        <div class="ft">
+          <div class="reportss">
+            <a href="#"onclick="window.location.href ='/bmi-hi/Reports.html'">
+              हिंदी चुनें
+            </a>
+          </div>
+        <!-- <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="images/flag.png">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/script.js"></script>
+<script src="js/function.js"></script>
+<script>
+setInterval(() => {
+  if(document.getElementById("spo").innerText != "Not Measured"){
+    document.getElementById("spo").style.fontSize = "35px"
+  }else{
+    document.getElementById("spo").style.fontSize = "26px"
+  }
+  if(document.getElementById("bp").innerText != "Not Measured"){
+    document.getElementById("bp").style.fontSize = "35px"
+  }else{
+    document.getElementById("bp").style.fontSize = "26px"
+  }
+
+  if(document.getElementById("pr").innerText != "Not Measured"){
+    document.getElementById("pr").style.fontSize = "35px"
+  }else{
+    document.getElementById("pr").style.fontSize = "26px"
+  }
+  if(document.getElementById("bmi").innerText != "Not Measured"){
+    document.getElementById("bmi").style.fontSize = "35px"
+  }else{
+    document.getElementById("bmi").style.fontSize = "26px"
+  }
+  if(document.getElementById("height").innerText != "Not Measured"){
+    document.getElementById("height").style.fontSize = "35px"
+  }else{
+    document.getElementById("height").style.fontSize = "26px"
+  }
+  if(document.getElementById("Weight").innerText != "Not Measured"){
+    document.getElementById("Weight").style.fontSize = "35px"
+  }else{
+    document.getElementById("Weight").style.fontSize = "26px"
+  }
+
+
+}, 10);
+  // alert("hello")
+var h = localStorage.getItem("height");
+var w = localStorage.getItem("weight");
+var bmi = localStorage.getItem("bmi");
+var spo = localStorage.getItem("spo");
+var pr = localStorage.getItem("pr");
+var bp = localStorage.getItem("bp");
+var age= localStorage.getItem("age") ;
+var gender=(localStorage.getItem("gender") == "male")?1:0;
+var id=localStorage.getItem("id");
+var uname=localStorage.getItem("uname");
+var mobile=localStorage.getItem("mobile");
+var bfp = (-44.988) + (0.503 * age) + (10.689 * gender) + (3.172 * bmi) - (0.026 * bmi*bmi) + (0.181 * bmi * gender) - (0.02 * bmi * age) - (0.005 * bmi*bmi * gender) + (0.00021 * bmi*bmi * age)
+if(parseInt(gender) == 1){
+// var bmr = 88.362 + (13.397 * w) + (4.799 * h) - (5.677 * age)
+var bmr = (10 * w) + (6.25 * h) - (5 * age) + 5
+var tbw = 2.447 - (0.09156 * age) + (0.1074 * h) + (0.3362 * w)
+}else{
+var tbw = -2.097 + (0.1069 * h) + (0.2466 * w)
+// var bmr = 447.593 + (9.247 * w) + (3.098 * h) - (4.330 * age)
+var bmr = (10 * w) + (6.25 * h) - (5 * age) -161
+}
+bfp = (w * bfp / 100)
+bfp = bfp.toFixed(2)
+bmr = bmr.toFixed(2)
+tbw = tbw.toFixed(2)
+if(w == 0){
+  bmr = 0.00;
+  tbw = 0.00;
+  bfp = 0.00;
+}
+if(age == 0){
+  bfp = "NA";
+  bmr = "NA";
+  tbw= "NA";
+}
+// console.log(gender)
+// alert(h,w,bmi,spo,pr,bp)
+// var dia = localStorage.getItem("dia");
+// var w = localStorage.getItem("wight");
+document.getElementById("height").innerText = h
+document.getElementById("tbf").innerText = bfp 
+document.getElementById("bmr").innerText = bmr 
+document.getElementById("tbw").innerText = tbw 
+document.getElementById("Weight").innerText = w
+document.getElementById("bmi").innerText = bmi
+document.getElementById("spo").innerText = spo
+document.getElementById("pr").innerText = pr
+document.getElementById("bp").innerText = bp
+function prints(){
+  // Data to be sent in the POST request (as a JavaScript object)
+  const postData = {
+  "h": h,
+  "w": w,
+  "bmi":bmi,
+  "spo":spo,
+  "pr":pr,
+  "bp":bp,
+  "bfp":(bfp == "NA")?bfp:bfp+" %",
+  "bmr":(bmr == "NA")?bmr:bmr+" Kcal",
+  "tbw":(tbw == "NA")?tbw:tbw+ " Liter",
+  "uname":uname,
+  "age":age,
+  "gender":(age == 0)?" NA ":" "+((gender == 1)?"Male":"Female"),
+  "mobile":mobile
+  };
+  
+  // Create a request object
+  const requestOptions = {
+  method: 'POST', // HTTP method
+  headers: {
+  'Content-Type': 'application/json' // Specify the content type
+  },
+  body: JSON.stringify(postData) // Convert the data to JSON format
+  };
+  
+  // Send the POST request
+  fetch('http://'+currentUrl+'/mk/print', requestOptions)
+  .then(response => {
+  if (response.ok) {
+  // Request was successful, you can handle the response here
+  return response.json(); // If the response is JSON, parse it
+  } else {
+  // Handle the error here
+  throw new Error('Error:', response.statusText);
+  }
+  })
+  .then(data => {
+  // Process the data received in the response
+  // console.log('Response data:', data);
+  if(data.code == 200){
+    alert2("success","Printing",`Please Wait While Printing Done Also Sms send On ${mobile}`)
+    localStorage.clear();
+    localStorage.setItem("height", "Not Measured");
+    localStorage.setItem("weight", "Not Measured");
+    localStorage.setItem("bmi", "Not Measured");
+    localStorage.setItem("bp", "Not Measured");
+    localStorage.setItem("pr", "Not Measured");
+    localStorage.setItem("spo", "Not Measured");
+    // Redirect to index.html
+    window.location.href = 'index.html';
+  }
+  })
+  .catch(error => {
+  // Handle network or other errors here
+  console.error('Error:', error);
+  });
+
+}
+
+</script>
+</body>
+</html>
+ 

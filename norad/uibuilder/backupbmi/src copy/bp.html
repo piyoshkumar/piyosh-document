@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      const currentUrl2=window.location.host
+        fetch('http://' + currentUrl2 + '/mk/clear?act=bp')
+        .then(response => {
+        if (response.ok) {
+        console.log('Clear request was successful.');
+        } else {
+        console.error('Error:', response.statusText);
+        }
+        })
+        .catch(error => {
+        // console.error('Error:', error);
+        });
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
+  </head>
+<body>
+<div class="bg-img pe-3">
+  <section class="header">
+    <div class="top-header">
+        <div class="top-in">
+          <div class="logo"><img src="images/logo.png"></div>
+        </div>
+        <div class="top-in">
+        <div class="top-in1">
+          <h4 id="uname">Faizan Ahmad</h4>
+          <p id="age">26 Y Male <strong>2365478</strong></p>
+        </div>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+                  document.getElementById("uname").innerText = localStorage.getItem("uname");
+                  document.getElementById("age").innerHTML = localStorage.getItem("age") + " Y  " + localStorage.getItem("gender");
+                  });
+        </script>
+          <div class="top-in2">
+            <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+            <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a></div>
+          </div>
+         
+        </div>
+    </div>
+  </section>
+
+  <section class=" middle middle-measure ">
+   
+    <div class="measureicon-inn bpp">
+      <div class="measureicon-icon">
+          <p>BP</p>
+      </div>
+    </div>
+
+    <div class="measurehead">
+      <div class="mesuresection">
+          <div class="machine-lft  bpmac"><img src="images/bpmachine.gif"> </div>
+          <div class="desc-rt">
+              <!-- <p>Remove clothing from arm.</p> -->
+              <p>Make sure the arm support is in the correct position.</p>
+              <p>Place the cuff one inch above the bend of the elbow.</p>
+              <p>Tighten the cuffs</p>
+              <p>Press the start button on the BP machine and remain still.</p>
+          </div>
+      </div>
+
+
+
+      <div class="inptsection-main">
+          <div class="inptsection-in">
+              <div class="measureinput">
+                  <span>Your Blood Pressure (sys/dia) :</span>
+              </div>
+              <div class="measureinput">
+                <span><input class='form-control' id="bp" type="text" readonly></span>
+            </div>
+          </div>
+      </div>
+
+      <div class="inptsection-main">
+          <div class="loaderimg">
+              <!-- <h4>Measuring...</h4> -->
+              <img id="load"  src="images/VitalLoader.gif">
+          </div>
+      </div>
+      
+      <div class="btnsection">
+        <buton class="btnSbmt" id ="myskip" onclick="window.location.href ='/bmi3/Reports.html'">Skip</buton>
+        <buton class="btnSbmt" id="mysub" onclick="storeBp()" style="display: none;">Submit</buton>
+        <!-- <buton class="btnSbmt" id ="mysub" onclick="storeBmi()" style="display: none;">Submit</buton> -->
+        <buton class="reload" id="reget" onclick="window.location.href ='/bmi3/bp.html'" style="display:none;">Refresh</buton>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="footer">
+    <div class="footer-in">
+      <div class="footer-logo"><img src="images/footerlogo.png"></div>
+      <div class="lang">
+        <div class="ft">
+          <div class="reportss">
+            <a href="#"onclick="window.location.href ='/bmi-hi/bp.html'">
+              हिंदी चुनें
+            </a>
+          </div>
+        <!-- <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="images/flag.png">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/script.js"></script>  
+<script src="js/function.js"></script> 
+<script>
+  var bp = ""
+  setInterval(() => {
+    getBp()
+    bp = document.getElementById("bp").value; // Initialize with the initial values from your form
+    bp=bp.split("/");
+    if(bp[1] > 0){
+      document.getElementById("reget").style.display = "";
+        document.getElementById("mysub").style.display = "";
+        document.getElementById("load").style.display = "none";  
+    }  
+  }, 10);
+</script> 
+</body>
+</html>
+ 

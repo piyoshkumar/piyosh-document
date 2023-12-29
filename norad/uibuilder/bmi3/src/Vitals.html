@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="css/all.min.css"/>
+  </head>
+<body >
+<div class="bg-img pe-3">
+  <section class="header">
+    <div class="top-header">
+        <div class="top-in">
+          <div class="logo"><img src="images/logo.png"></div>
+        </div>
+        <div class="top-in">
+          <div class="top-in1">
+             <h4 id="uname">Faizan Ahmad</h4>
+             <p id="age">26 Y Male <strong>2365478</strong></p>
+          </div>
+          <script>
+          document.addEventListener("DOMContentLoaded", function() {
+          if (localStorage.getItem("uname") == null){
+          window.location.href = "index.html"
+          }
+           document.getElementById("uname").innerText = localStorage.getItem("uname");
+           document.getElementById("age").innerHTML = localStorage.getItem("age") + " Y " + localStorage.getItem("gender") ;
+          });
+          </script>
+          <div class="top-in2">
+            <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+            <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a></div>
+          </div>
+         
+        </div>
+    </div>
+  </section>
+
+  <section class="middle">
+    <div class="hedouter">
+        <h3 class="welcometxt">Hello!</h3>
+    </div>
+    <div class="mesurevital">
+        <h3>Measure Vitals</h3>
+        <div class="redictarrow">
+            <a href="VitalsMeasurement.html"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <span class="txtmesrvital">Please click here to measure your vitals</span>
+    </div>
+    <div class="selectvital">
+        <h3>Select any vital below to start measuring </h3>
+    </div>
+    <div class="measureicon">
+      <a href="height.html">
+        <div class="measureicon-inn">
+            <div class="measureicon-icon border-rt">
+                <img src="images/height.png">
+                <p>Height</p>
+            </div>
+            <div class="measureicon-icon border-rt">
+                <img src="images/weight.png">
+                <p>Weight</p>
+            </div>
+            <div class="measureicon-icon">
+                <img src="images/bmi.png">
+                <p>BMI</p>
+            </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="measureicon-bpmain">     
+        <div class="measureicon-lft flex-grow-1">
+          <a href="bp.html">
+            <div class="measureicon-icon">
+                <img src="images/blood-pressure.png">
+                <p>BP</p>
+            </div>
+          </a>
+        </div>
+       
+        <div class="measureicon-rt">
+          <a href="spo2.html">
+            <div class="measureicon-icon border-rt">
+                <img src="images/pulse-oximeter.png">
+                <p>Pulse Rate</p>
+            </div>
+            <div class="measureicon-icon">
+                <img src="images/cardiogram.png">
+                <p>SPO2</p>
+            </div>
+          </a>
+        </div>
+    </div>
+</section>
+
+
+  <section class="footer">
+    <div class="footer-in">
+      <div class="footer-logo"><img src="images/footerlogo.png"></div>
+      
+      <div class="lang">
+        <div class="ft">
+          <div class="reportss"><a href="Reports.html"><img src="images/reports.png"> Summary</a></div>
+        </div>
+        <div class="ft">
+          <div class="reportss">
+            <a href="#"onclick="window.location.href ='/bmi-hi/Vitals.html'">
+              हिंदी चुनें
+            </a>
+          </div>
+        <!-- <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="images/flag.png">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/script.js"></script>
+<script src="js/function.js"></script>
+</body>
+</html>
+ 

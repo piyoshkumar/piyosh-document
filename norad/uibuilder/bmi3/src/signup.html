@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/sweetalert.js"></script>
+
+
+    <link rel="stylesheet" href="css/all.min.css"/>
+  </head>
+<body>
+<div class="bg-img pe-3">
+  <section class="header">
+    <div class="top-header">
+        <div class="top-in">
+          <div class="logo"><img src="images/logo.png"></div>
+        </div>
+        <div class="top-in">
+          <div class="top-in2">
+            <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+            <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a></div>
+          </div>
+         
+        </div>
+    </div>
+  </section>
+
+  <section class="middle">
+    <h3 class="logintxt">Sign Up</h3>
+    <p class="paratxt">Let’s Get Started</p>
+    <div class="bg">
+         <label>Enter your name</label>
+         <input class='keyboard-input' type="text" placeholder="Enter your name" id="uname"> 
+
+        <div class="dbo">
+           <div class="dbo-1"> 
+             <label>Enter your DOB</label>
+             <input class='keyboard-input' type="date" id="dob"> 
+           </div>
+           <div class="dbo-1"> 
+            <label>Gender</label>
+            <div class="rdo-in">
+              <label class="rdo">Male
+                <input type="radio" checked="checked" name="radio" value="male" id="gender1">
+                <span class="checkmark"></span>
+              </label>
+              <label class="rdo">Female
+                <input type="radio" name="radio" value="female" id="gender2">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+         <label>Enter your mobile no.</label>
+         <input class='keyboard-input' type="number"  id="mobile" placeholder="Enter Mobile Number"> 
+         
+         <div class="dbo" id="mdn1">
+          <div class="dbo-1"> 
+            <label id="" >Enter OTP For Verify Mobile Number.</label>
+            <input class='keyboard-input'  type="number"  id="ottp" placeholder="Enter OTP For Verify Mobile Number."> 
+            <input class=''  type="hidden"  id="datavals" > 
+          </div>
+          <div class="dbo-1"> 
+            <div class="btn-custom greenbtn mt-4 p-2" id="otpbtnr" onclick="resend()">Resend</div>
+            <div class="btn-custom greenbtn mt-4 p-2" id="otpbtnv" style="display: none;" onClick="checkotpsing()">Validate</div>
+          </div>
+       </div>
+       
+         
+         <label>Enter your email address(Optional)</label>
+         <input class='keyboard-input' type="email" placeholder="Enter Email ID" id="email"> 
+
+         <!-- <a href="signup.html"> -->
+          <div class="btn-custom purplebtn mt-2" onclick="register()">Sign Up</div>
+        <!-- </a> -->
+        <div class="or">OR</div>
+        <div class="loginbtn"><a href="index.html">Login with OTP</a></div>
+        <div class="terms"><a href="#">
+          <input type="checkbox" checked style="border-radius: 0px; width: auto; border: 1px solid #ddd; height: auto;  margin-bottom: 0;     padding: 0;     color: #595252;">
+          <strong>Terms & Conditions</strong></a></div>
+    </div>
+  </section>
+
+
+  <section class="footer">
+    <div class="footer-in">
+      <div class="footer-logo"><img src="images/footerlogo.png"></div>
+      <div class="lang">
+        <div class="ft">
+          <div class="reportss">
+            <a href="#"onclick="window.location.href ='/bmi-hi/signup.html'">
+              हिंदी चुनें
+            </a>
+          </div>
+        <!-- <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="images/flag.png">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/script.js"></script>
+<script src="js/function.js"></script> 
+<script>
+var  otp = ""
+fla=0
+validate=0
+validnumber=""
+const intervalId = setInterval(() => {
+ const mobile = document.getElementById("mobile").value
+ numberset()
+ if(mobile.length == 10){
+ if(validate == 0){
+  fla++;
+ document.getElementById("mdn1").style.display = ""
+ if(fla == 5){
+  fetch('http://' + currentUrl + '/mk/otp?mobile=' + mobile)
+      .then(response => {
+      if (response.status === 200) {
+      return response.json();
+      } else {
+      throw new Error('Request failed');
+      }
+      })
+      .then(data => {
+      otp1 = data.otp;
+      console.log(otp1);
+      document.getElementById("datavals").value = otp1;
+      })
+      .catch(error => {
+      // Handle errors...
+      });
+    }
+  }
+    }else{
+  
+  document.getElementById("mdn1").style.display = "none"
+  fla=0
+  // document.getElementById("ottp").style.display = "none"
+ }
+ const otp = document.getElementById("ottp").value
+ if(otp.length == 0){
+  document.getElementById("otpbtnr").style.display=""
+  document.getElementById("otpbtnv").style.display="none"
+
+ }else{
+  document.getElementById("otpbtnr").style.display="none"
+  document.getElementById("otpbtnv").style.display=""
+ }
+ 
+ // getBmi();
+    // clearInterval(intervalId);
+}, 100);
+
+function resend(){
+    var urlParams = new URLSearchParams(window.location.search);
+    var mobile = document.getElementById("mobile").value;
+    var otps =document.getElementById("datavals").value;
+    fetch('http://'+currentUrl+'/mk/otp?mobile=' + mobile+'&otp='+otps)
+    .then(response => {
+    if (response.status === 200) {
+    return response.json();
+    } else {
+    throw new Error('Request failed');
+    }
+    })
+    .then(data => {
+    otp = data.otp
+    // localStorage.setItem("uname", data.uname);
+    // localStorage.setItem("age", calculateAge(data.dob));
+    // localStorage.setItem("gender", data.gender);
+    // localStorage.setItem("id", data.id);
+    // console.log(data)
+    // console.log(otp)
+    // alert2("success","One Time Password","Your Test OTP is :"+otp)
+    })
+    .catch(error => {
+    console.error('Error:', error);
+    });
+    }
+
+   
+
+    function checkotpsing(){
+      var otp2=parseInt(document.getElementById("datavals").value)
+      var Eotp=parseInt(document.getElementById("ottp").value)
+      console.log(otp2-Eotp)
+      if((otp2 - Eotp) == 0){
+        document.getElementById("mdn1").style.display = "none"
+        document.getElementById("mobile").readOnly = true
+        validnumber=document.getElementById("mobile").value;
+        // document.getElementById("mobile").classList.remove("keyboard-input")
+        // document.getElementById("mobile").value
+        validate=1
+      }else{
+        alert2("error","Invalid Otp","Please Check OTP and Enter again.")
+      }
+
+    }
+
+    function numberset(){
+      if(validate ==1){
+        document.getElementById("mobile").value = validnumber;
+      }
+    }
+
+</script>
+</body>
+</html>
+ 

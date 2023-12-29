@@ -1,0 +1,3161 @@
+[
+    {
+        "id": "69a155b2e5fa1e19",
+        "type": "tab",
+        "label": "bmi",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3399eb792965d6a2",
+        "type": "tab",
+        "label": "send to server",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "900b5e2a8c8d67fe",
+        "type": "tab",
+        "label": "Socket_server",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ef62ab0cf2b98b66",
+        "type": "tab",
+        "label": "MINIKIOSK",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c96755613a526141",
+        "type": "sqlitedb",
+        "db": "/home/pi/database/bmi.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "6858d4cb804be07b",
+        "type": "serial-port",
+        "serialport": "/dev/ttyUSB0",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "039840e2d13a1fe3",
+        "type": "websocket-listener",
+        "path": "/minikiosk",
+        "wholemsg": "false"
+    },
+    {
+        "id": "6503bace631428f0",
+        "type": "sqlitedb",
+        "db": "/home/pi/database/bmidb.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "82cb953b8a3b0090",
+        "type": "websocket-listener",
+        "path": "/mk/bmi",
+        "wholemsg": "false"
+    },
+    {
+        "id": "95b13625156cfdb7",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "18925ce2f1b63d61",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "b87ae6aa1eb00707",
+        "type": "inject",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "\"{'W':0,'H':185.00,'BMI':25}\"",
+        "payloadType": "str",
+        "x": 130,
+        "y": 40,
+        "wires": [
+            [
+                "b36cb63f73e62aec",
+                "2dc2c7f8e2dab19b"
+            ]
+        ]
+    },
+    {
+        "id": "a05d1c721bec70ad",
+        "type": "function",
+        "z": "69a155b2e5fa1e19",
+        "name": "function 2",
+        "func": "var msg1 = {}\nvar msg2 = {}\nvar msg3 = {}\nvar msg4 = {}\nvar msg5 = {}\nvar msg6 = {}\nvar age = global.get(\"age\")\nif(age == undefined){\n    age = \"\"\n}\nvar gender = global.get(\"gender\")\nvar hold = global.get(\"hold\")\nvar ip=global.get(\"ip\")\nvar pid=parseInt(global.get(\"pid\"))\nif(pid == 0){pid = \"\"}\nvar mobile=parseInt(global.get(\"mobile\"))\nif(mobile == 0){mobile = \"\"}\nvar spo2 = global.get(\"spo2\")\nvar spo = global.get(\"spo\")\nvar pr = global.get(\"pr\")\nvar bp = global.get(\"bp\")\nvar dia = global.get(\"dia\")\nvar sys = global.get(\"sys\")\nvar lang=global.get(\"lang\")\nvar w = global.get(\"w\")\nvar h = global.get(\"h\")\nif (parseInt(h) <= 30 ) { \n    h = 0;\n    w=0; \n    }\nif (parseInt(w) <= 10 ) { \n    w = 0 \n    h=0;\n    }\nvar bmi = (w/(h*h/10000));\nbmi = bmi.toFixed(2);\n// msg1.payload = bmi\n// var bfp = (1.39 * bmi) + (0.16 * age) - (10.34 * gender) - 9\nvar bfp = (-44.988) + (0.503 * age) + (10.689 * gender) + (3.172 * bmi) - (0.026 * bmi*bmi) + (0.181 * bmi * gender) - (0.02 * bmi * age) - (0.005 * bmi*bmi * gender) + (0.00021 * bmi*bmi * age)\nif(parseInt(gender) == 1){\n    // var bmr = 88.362 + (13.397 * w) + (4.799 * h) - (5.677 * age)\n    var bmr = (10 * w) + (6.25 * h) - (5 * age) + 5\n    var tbw = 2.447 - (0.09156 * age) + (0.1074 * h) + (0.3362 * w)\n}else{\n    var tbw = -2.097 + (0.1069 * h) + (0.2466 * w)\n    // var bmr = 447.593 + (9.247 * w) + (3.098 * h) - (4.330 * age)\n    var bmr = (10 * w) + (6.25 * h) - (5 * age) -161\n}\nbfp = (w * bfp / 100)\nbfp = bfp.toFixed(2)\nbmr = bmr.toFixed(2)\nif(tbw <=0 || h ==0){tbw=0}\ntbw = tbw.toFixed(2)\nvar lbm = (w - Math.ceil(w * bfp / 100))\nlbm = lbm.toFixed(2)\nif(bmr <= 0 || h == 0){bmr = 0}\nif (isNaN(bmi)){ bmi = 0 }\nif (isNaN(bfp)) { bfp = 0 }\nif (isNaN(lbm)){ lbm = 0}\nif(parseInt(bmi) <= 0 || parseInt(bmi) >=45){\n    bmi = 0\n}\nvar spo1=\"\"\nif (isNaN(spo)) { spo = 0 }\nif (isNaN(pr)) { pr = 0 }\nspo1 = spo+\":\"+pr; \nvar bp1=\"\"\nbp1 = sys + \":\" + dia;\nglobal.set(\"bmi\",bmi)\nglobal.set(\"bfp\", bfp + \" %\")\nglobal.set(\"bmr\", bmr + \" kcal\")\nglobal.set(\"tbw\", tbw + \" Liter\")\nglobal.set(\"lbm\", lbm + \" Kg\")\nvar uname=global.get(\"uname\")\nif(uname == undefined){\n    uname = \"\"\n}\nvar gender=global.get(\"gender\")\nvar net=global.get(\"network\")\n// global.set(\"bmi\",bmi)\nmsg1.payload = {\"uname\":uname,\"lang\":lang, \"hold\": hold, \"ip\": ip, \"bmi\": bmi, \"bfp\": bfp + \" %\", \"bmr\": bmr + \" kcal\", \"tbw\": tbw + \" Liter\", \"lbm\": lbm + \" Kg\", \"w\": w, \"h\": h,\"spo2\":spo1,\"spo2_pos\":spo2,\"bp\":bp1,\"bp_pos\":bp ,\"pid\":pid,\"mobile\":mobile,\"age\":age,\"gender\":gender,\"network\":net}\nreturn msg1;\n// return msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n// global.set(\"age\", \"0\")\n// global.set(\"gender\", \"1\")\n// global.set(\"pid\",0000000)\n\n",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 400,
+        "wires": [
+            [
+                "59726ca6339c949e",
+                "7c50e4b4aa1b8549"
+            ]
+        ]
+    },
+    {
+        "id": "747c508ed4ec3146",
+        "type": "function",
+        "z": "69a155b2e5fa1e19",
+        "name": "function 3",
+        "func": "global.set(\"ip\", msg.payload.internalIPv4)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2dc2c7f8e2dab19b",
+        "type": "function",
+        "z": "69a155b2e5fa1e19",
+        "name": "demo data",
+        "func": "var f=1\nvar h =  (Math.floor(Math.random() * (180 - 150 + 1)) + 150)*f;\nvar w = ((Math.random() * (90 - 50 + 1)) + 45)*f;\nglobal.set(\"spo\",h.toFixed())\nglobal.set(\"pr\",w.toFixed())\nglobal.set(\"h\",h)\nglobal.set(\"w\",w)\nglobal.set(\"sys\",h)\nglobal.set(\"dia\",5)\nmsg.payload=\"{'W':\"+w+\",'H':\"+h+\",'BMI':25}\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 40,
+        "wires": [
+            [
+                "6f00e975f261718f"
+            ]
+        ]
+    },
+    {
+        "id": "0e8e04e70cfc12bc",
+        "type": "function",
+        "z": "69a155b2e5fa1e19",
+        "name": "function 5",
+        "func": "var data=msg.payload\nif(data.key == \"hold\"){\nvar hold=parseInt(global.get(\"hold\"))\nif(hold != 1){\n    global.set(data.key,parseInt(data.val));\n}else{\n    global.set(data.key, 0);\n}\n}else if(data.key == \"lang\"){\nvar hold=parseInt(global.get(\"lang\"))\nif(hold != 1){\n    global.set(data.key,parseInt(data.val));\n}else{\n    global.set(data.key, 0);\n}\n}else if(data.key == \"bp\"){\n    var bp = global.get(\"bp\")\n    if (bp != 1) {\n        global.set(data.key, parseInt(data.val));\n    } else {\n        global.set(data.key, 1);\n        global.set(\"dia\", 0)\n        global.set(\"sys\", 0)\n    }\n}else if (data.key == \"spo2\") {\n    var spo2 = global.get(\"spo2\")\n    if (spo2 != 1) {\n        global.set(data.key, parseInt(data.val));\n    } else {\n        global.set(data.key, 1);\n        global.set(\"pr\", 0)\n        global.set(\"spo\", 0)\n    }\n}else if (data.key == \"uname\") {\n            global.set(data.key, data.val);\n}else{\n        global.set(data.key, parseInt(data.val));  \n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 420,
+        "wires": [
+            [
+                "18925ce2f1b63d61"
+            ]
+        ]
+    },
+    {
+        "id": "6f00e975f261718f",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "59726ca6339c949e",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "c2a3169bc736b34c",
+        "type": "inject",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 580,
+        "wires": [
+            [
+                "29ca7ffcbad4e05c"
+            ]
+        ]
+    },
+    {
+        "id": "29ca7ffcbad4e05c",
+        "type": "exec",
+        "z": "69a155b2e5fa1e19",
+        "command": "sh /home/pi/start.sh",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 350,
+        "y": 580,
+        "wires": [
+            [
+                "060f62642dad7ab7"
+            ],
+            [
+                "060f62642dad7ab7"
+            ],
+            [
+                "060f62642dad7ab7"
+            ]
+        ]
+    },
+    {
+        "id": "060f62642dad7ab7",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "457b446ffa5d8d53",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "f158bd51440d4f3e",
+        "type": "exec",
+        "z": "69a155b2e5fa1e19",
+        "command": "curl  http://172.16.5.250:8090/programs/lib/fire.py | python",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 510,
+        "y": 1120,
+        "wires": [
+            [
+                "457b446ffa5d8d53"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "93f76ec26a6889ca",
+        "type": "inject",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 1120,
+        "wires": [
+            [
+                "f158bd51440d4f3e"
+            ]
+        ]
+    },
+    {
+        "id": "c3f75950f923e4d0",
+        "type": "inject",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 120,
+        "wires": [
+            [
+                "b36cb63f73e62aec"
+            ]
+        ]
+    },
+    {
+        "id": "a566a62a7457bb3c",
+        "type": "inject",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "0.01",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 400,
+        "wires": [
+            [
+                "a05d1c721bec70ad"
+            ]
+        ]
+    },
+    {
+        "id": "9cbaa7385c488996",
+        "type": "function",
+        "z": "69a155b2e5fa1e19",
+        "name": "h&w test",
+        "func": "global.set(\"w\", 90)\nglobal.set(\"h\", 190)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1280,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "475753765a891821",
+        "type": "inject",
+        "z": "69a155b2e5fa1e19",
+        "name": "test",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1110,
+        "y": 60,
+        "wires": [
+            [
+                "9cbaa7385c488996"
+            ]
+        ]
+    },
+    {
+        "id": "bcd89971870b6b94",
+        "type": "inject",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 980,
+        "wires": [
+            [
+                "b01e32438cb15dce"
+            ]
+        ]
+    },
+    {
+        "id": "b01e32438cb15dce",
+        "type": "function",
+        "z": "69a155b2e5fa1e19",
+        "name": "function 16",
+        "func": "global.set(\"spo\", 99)\nglobal.set(\"sys\", 99)\nglobal.set(\"dia\", 99)\nglobal.set(\"pr\", 99)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bceba5a56f6f1b5e",
+        "type": "uibuilder",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "topic": "",
+        "url": "bmi",
+        "fwdInMessages": false,
+        "allowScripts": false,
+        "allowStyles": false,
+        "copyIndex": true,
+        "templateFolder": "old-blank-client",
+        "extTemplate": "",
+        "showfolder": false,
+        "reload": false,
+        "sourceFolder": "src",
+        "deployedVersion": "6.4.1",
+        "showMsgUib": false,
+        "title": "",
+        "descr": "",
+        "x": 610,
+        "y": 360,
+        "wires": [
+            [
+                "95b13625156cfdb7",
+                "0e8e04e70cfc12bc"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "b36cb63f73e62aec",
+        "type": "ip",
+        "z": "69a155b2e5fa1e19",
+        "name": "ip",
+        "https": false,
+        "timeout": "5000",
+        "internalIPv4": true,
+        "internalIPv6": false,
+        "publicIPv4": false,
+        "publicIPv6": false,
+        "x": 310,
+        "y": 120,
+        "wires": [
+            [
+                "747c508ed4ec3146"
+            ]
+        ]
+    },
+    {
+        "id": "7c50e4b4aa1b8549",
+        "type": "uibuilder",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "topic": "",
+        "url": "bmi2",
+        "fwdInMessages": false,
+        "allowScripts": false,
+        "allowStyles": false,
+        "copyIndex": true,
+        "templateFolder": "old-blank-client",
+        "extTemplate": "",
+        "showfolder": false,
+        "reload": false,
+        "sourceFolder": "src",
+        "deployedVersion": "6.5.0",
+        "showMsgUib": false,
+        "title": "",
+        "descr": "",
+        "x": 620,
+        "y": 400,
+        "wires": [
+            [
+                "0e8e04e70cfc12bc"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5c4bd3d708d94e05",
+        "type": "function",
+        "z": "69a155b2e5fa1e19",
+        "name": "function 19",
+        "func": "var data=msg.payload\ndata=data.split(\",\")\nmsg.payload(data.length)\nnode.send(msg);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 240,
+        "wires": [
+            [
+                "0d8b1d74abb36710"
+            ]
+        ]
+    },
+    {
+        "id": "0d8b1d74abb36710",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 41",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "de7e2466e5484f9c",
+        "type": "function",
+        "z": "69a155b2e5fa1e19",
+        "name": "function 20",
+        "func": "var data=msg.payload\nvar msg1={}\nvar hold=global.get(\"hold\")\n// global.set(\"network\", networks(data))\n// msg1.payload = networks(data)\n// node.send(msg1);\n// if(hold != 1){\n    try {\n        if(data.includes(\"bmi\")){\n            data=data.split(\",\")\n            global.set(\"h\", (parseInt(data[1])))\n            global.set(\"w\", parseFloat(data[2]))\n            global.set(\"bmi\", parseFloat(data[3]))\n            global.set(\"bmitime\",Date.now())\n        } \n        //   return msg; \n            } catch (error) {\n         }\n        // }else{\n            try {\n            if(data.includes(\"BP\")){\n            data=data.split(\",\")\n            global.set(\"sys\", data[1])\n            global.set(\"dia\", data[2])\n            global.set(\"bptime\",Date.now())\n            // global.set(\"spo\", data[3])\n            // global.set(\"pr\", data[4])\n           \n            // global.set(\"msg\", data[7])\n            }else if(data.includes(\"SpO2\")){\n                data=data.split(\",\")\n                global.set(\"spo\", data[1])\n                global.set(\"pr\", data[2])\n                global.set(\"spotime\",Date.now())\n            }\n            } catch (error) {\n            }\n        // }\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nglobal.set(\"lang\",1)\nglobal.set(\"sys\", 0)\nglobal.set(\"dia\", 0)\nglobal.set(\"spo\", 0)\nglobal.set(\"pr\", 0)\nglobal.set(\"h\", 0)\nglobal.set(\"w\", 0)",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 300,
+        "wires": [
+            [
+                "f6e6e009f1d9f09d"
+            ]
+        ]
+    },
+    {
+        "id": "f6e6e009f1d9f09d",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 42",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "753f235d24d40df5",
+        "type": "exec",
+        "z": "69a155b2e5fa1e19",
+        "command": "python3 /home/pi/data2.py",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 380,
+        "y": 300,
+        "wires": [
+            [
+                "de7e2466e5484f9c",
+                "b605239e686e1f5b",
+                "435bc4333a054d44",
+                "f07bb363cab91255"
+            ],
+            [
+                "435bc4333a054d44"
+            ],
+            [
+                "435bc4333a054d44"
+            ]
+        ]
+    },
+    {
+        "id": "37e0a1f6fa693b31",
+        "type": "inject",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 320,
+        "wires": [
+            [
+                "753f235d24d40df5"
+            ]
+        ]
+    },
+    {
+        "id": "435bc4333a054d44",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 45",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "b605239e686e1f5b",
+        "type": "json",
+        "z": "69a155b2e5fa1e19",
+        "d": true,
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 590,
+        "y": 220,
+        "wires": [
+            [
+                "435bc4333a054d44"
+            ]
+        ]
+    },
+    {
+        "id": "f07bb363cab91255",
+        "type": "function",
+        "z": "69a155b2e5fa1e19",
+        "name": "function 22",
+        "func": "var dates=Date.now()\nfunction networks(datas){\n    if (datas.includes(\"not searching\")){\n        return 0\n    } else if (datas.includes(\"but searching\")) {\n        return 1\n    } else if (datas.includes(\"home network\")){\n        return 2\n    } else if (datas.includes(\"roaming\")) {\n        return 2\n    } else if (datas.includes(\"denied\")) {\n        return 0\n    } else if (datas.includes(\"Unknown\")) {\n        return 1\n    } else if (datas.includes(\"Unknown status\")) {\n        return 1\n    }\n}\nvar net = networks(msg.payload)\nif(net != undefined){\nglobal.set(\"network\",net)\nmsg.payload=net\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\nglobal.set(\"network\", 0)",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 660,
+        "wires": [
+            [
+                "70df256f516daad5"
+            ]
+        ]
+    },
+    {
+        "id": "70df256f516daad5",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 47",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "bb64a8a8e77ec494",
+        "type": "uibuilder",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "topic": "",
+        "url": "bmi3",
+        "fwdInMessages": false,
+        "allowScripts": false,
+        "allowStyles": false,
+        "copyIndex": true,
+        "templateFolder": "old-blank-client",
+        "extTemplate": "",
+        "showfolder": false,
+        "reload": false,
+        "sourceFolder": "src",
+        "deployedVersion": "6.5.0",
+        "showMsgUib": false,
+        "title": "",
+        "descr": "",
+        "x": 620,
+        "y": 440,
+        "wires": [
+            [
+                "0e8e04e70cfc12bc",
+                "c668264358de8f8d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c668264358de8f8d",
+        "type": "debug",
+        "z": "69a155b2e5fa1e19",
+        "name": "debug 48",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "f44c18ce4e2442f1",
+        "type": "inject",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "BP,110,70",
+        "payloadType": "str",
+        "x": 720,
+        "y": 100,
+        "wires": [
+            [
+                "de7e2466e5484f9c"
+            ]
+        ]
+    },
+    {
+        "id": "70b729d3424d4178",
+        "type": "uibuilder",
+        "z": "69a155b2e5fa1e19",
+        "name": "",
+        "topic": "",
+        "url": "bmi-hi",
+        "fwdInMessages": false,
+        "allowScripts": false,
+        "allowStyles": false,
+        "copyIndex": true,
+        "templateFolder": "old-blank-client",
+        "extTemplate": "",
+        "showfolder": false,
+        "reload": false,
+        "sourceFolder": "src",
+        "deployedVersion": "6.5.0",
+        "showMsgUib": false,
+        "title": "",
+        "descr": "",
+        "x": 620,
+        "y": 500,
+        "wires": [
+            [
+                "0e8e04e70cfc12bc",
+                "c668264358de8f8d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "006f2827a30b4bcd",
+        "type": "http request",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://182.156.200.179:201/API/bmiData/saveBMIMachineData",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 410,
+        "y": 140,
+        "wires": [
+            [
+                "480b51c88a3130f8",
+                "c8e99d6a7341a52b"
+            ]
+        ]
+    },
+    {
+        "id": "c8e99d6a7341a52b",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 19",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "45194dc5930ab0a4",
+        "type": "function",
+        "z": "3399eb792965d6a2",
+        "name": "function 14",
+        "func": "var msg1={}\nvar msg2={}\nfunction formatDateToDDMMYYYYHHMMSS() {\n  const now = new Date();\n  const day = String(now.getDate()).padStart(2, '0');\n  const month = String(now.getMonth() + 1).padStart(2, '0'); // Month is zero-based\n  const year = now.getFullYear();\n  const hours = String(now.getHours()).padStart(2, '0');\n  const minutes = String(now.getMinutes()).padStart(2, '0');\n  const seconds = String(now.getSeconds()).padStart(2, '0');\n\n  const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;\n  return formattedDate;\n}\n\nconst formattedDate = formatDateToDDMMYYYYHHMMSS();\n// console.log(formattedDate);\nif(global.get(\"Send\") == \"1\"){\nvar data={\"machineName\": \"BMI 121\",\"PID\": global.get(\"pid\"),\"height\": global.get(\"h\"),\"weight\": global.get(\"w\")}\nmsg.payload=data\n    var data1 = {\n        \"PID\": global.get(\"pid\"),\n        \"BP_Sys\": global.get(\"sys\"),\n        \"BP_Dias\": global.get(\"dia\"),\n        \"Pulse\": global.get(\"pr\"),\n        \"Temperature\": \"\",\n        \"spo2\": global.get(\"spo\"),\n        \"RR\": \"\",\n        \"HR\": \"\",\n        \"BP_Pulse\": global.get(\"pr\")\n    }\nmsg1.payload=data1\nvar machine=\"BMI1\"\n    var data2 = {\n        \"date\":formattedDate,\n        \"machineName\" : \"BMI 121\",\n        \"age\":global.get(\"age\")+ \" years\",\n        \"gender\":(global.get(\"gender\")== \"1\")?\"Male\":\"Female\",\n        \"uname\":global.get(\"uname\"),\n        \"PID\" : global.get(\"pid\"),\n        \"mobile\":global.get(\"mobile\"),\n        \"height\": global.get(\"h\"),\n        \"weight\": global.get(\"w\"),\n        \"BMI\": global.get(\"bmi\"),\n        \"BodyFat\": global.get(\"bfp\"),\n        \"BasalMetabolicRate\":global.get(\"bmr\"),\n        \"TotalBodyWater\":global.get(\"tbw\"),\n        \"LeanBodyMass\":global.get(\"lbm\"),\n        \"BP_Sys\": global.get(\"sys\"),\n        \"BP_Dias\": global.get(\"dia\"),\n        \"spo2\": global.get(\"spo\"),\n        \"Pulse\": global.get(\"pr\")\n\n    }\nmsg2.payload=data2\nmsg2.topic=`INSERT INTO patient_data (\n        date,\n        machineName,\n        age,\n        gender,\n        uname,\n        PID,\n        mobile,\n        height,\n        weight,\n        BMI,\n        BodyFat,\n        BasalMetabolicRate,\n        TotalBodyWater,\n        LeanBodyMass,\n        BP_Sys,\n        BP_Dias,\n        spo2,\n        Pulse\n    )\n    VALUES (\n        '${formattedDate}',\n        '${machine}',\n        '${global.get(\"age\")}',\n        '${(global.get(\"gender\")== \"1\")?\"Male\":\"Female\"}',\n        '${global.get(\"uname\")}',\n        ${global.get(\"pid\")},\n        '${global.get(\"mobile\")}',\n        ${global.get(\"h\")},\n        ${global.get(\"w\")},\n        ${global.get(\"bmi\")},\n        ${global.get(\"bfp\").split(\" \")[0]},\n        ${global.get(\"bmr\").split(\" \")[0]},\n        ${global.get(\"tbw\").split(\" \")[0]},\n        ${global.get(\"lbm\").split(\" \")[0]},\n        ${global.get(\"sys\")},\n        ${global.get(\"dia\")},\n        ${global.get(\"spo\")},\n        ${global.get(\"pr\")}\n        \n    );\n`\nconst tamp = Math.floor(Date.now() / 1000);\n// console.log(currentUnixTimestamp);\n\nvar sms = `sms,${global.get(\"mobile\")},SARVODAYA PATIENT KIOSK  Ref No: ${tamp} PID: ${global.get('pid')} Height: ${global.get('h')} Weight: ${global.get('w')} BMI: ${global.get('bmi')} BP: ${global.get('sys')}/${global.get('dia')} SPO2: ${global.get('spo')} Pulse: ${global.get('pr')} \\n`;\n// sms=\"sms,\"\",\"+sms\nglobal.set(\"sms\",sms)\nglobal.set(\"Send\",\"0\")\nif(parseInt(global.get(\"lang\")) == 1){\n    return [msg, msg1, msg2, null];\n\n}else{\n    return [msg, msg1,null,msg2];\n\n}\n\n}",
+        "outputs": 4,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 280,
+        "wires": [
+            [
+                "006f2827a30b4bcd",
+                "62443b07fe400813",
+                "50358960a44c3691"
+            ],
+            [
+                "0b41a853124e64d9",
+                "62443b07fe400813",
+                "50358960a44c3691"
+            ],
+            [
+                "d042fc19d74debd3",
+                "135eb35e084e8386",
+                "4e8352a5a9949785"
+            ],
+            [
+                "4e8352a5a9949785",
+                "d042fc19d74debd3"
+            ]
+        ]
+    },
+    {
+        "id": "8d437661dc866c54",
+        "type": "inject",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 360,
+        "wires": [
+            [
+                "45194dc5930ab0a4"
+            ]
+        ]
+    },
+    {
+        "id": "62443b07fe400813",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 20",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "0b41a853124e64d9",
+        "type": "http request",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://182.156.200.179:201/API/SaveMonitorData/saveMonitorData",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 430,
+        "y": 400,
+        "wires": [
+            [
+                "88c0e15500ac7b74",
+                "50358960a44c3691"
+            ]
+        ]
+    },
+    {
+        "id": "88c0e15500ac7b74",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 26",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "2f86f6bf67970140",
+        "type": "exec",
+        "z": "3399eb792965d6a2",
+        "command": "sudo reboot",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "0459bdfe80bb22c4",
+        "type": "inject",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 140,
+        "wires": [
+            [
+                "2f86f6bf67970140"
+            ]
+        ]
+    },
+    {
+        "id": "e6ddfa6a2eccab36",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 29",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "50358960a44c3691",
+        "type": "http request",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://182.156.200.179:1880/api/v2/bmi",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 970,
+        "y": 460,
+        "wires": [
+            [
+                "e6ddfa6a2eccab36"
+            ]
+        ]
+    },
+    {
+        "id": "0288c9c555b7dd6b",
+        "type": "serial out",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "serial": "6858d4cb804be07b",
+        "x": 970,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "d042fc19d74debd3",
+        "type": "template",
+        "z": "3399eb792965d6a2",
+        "name": "English",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "************************************************\n            SARVODAYA PATIENT KIOSK\n************************************************\n                    REPORT\n------------------------------------------------\nDATE: {{payload.date}} \nPID: {{payload.PID}}    Age/Gender:{{payload.age}}/{{payload.gender}}\nNAME: {{payload.uname}}\nMOBILE NUMBER: {{payload.mobile}}\nMACHINE NAME: Patient Kiosk Waiting Area\n------------------------------------------------\nMeasured Parameters\n------------------------------------------------\nHeight                  : {{payload.height}} cm\nWeight                  : {{payload.weight}} kg\nBMI                     : {{payload.BMI}} kg/m2\nBlood Pressure(Sys/Dia) : {{payload.BP_Sys}}/{{payload.BP_Dias}} mmHg\nSpO2                    : {{payload.spo2}} %\nPulse Rate              : {{payload.Pulse}} bpm\n------------------------------------------------\nEstimated Parameters (Approx)\n------------------------------------------------\nBody Fat                : {{payload.BodyFat}}\nBasal Metabolic Rate    : {{payload.BasalMetabolicRate}}\nTotal Body Water        : {{payload.TotalBodyWater}}\nLean Body Mass          : {{payload.LeanBodyMass}}\n************************************************\n      Powered By: Criterion Technologies.\n************************************************\n     Tear Here - Pull Slip In Front To Tear\n\n",
+        "output": "str",
+        "x": 540,
+        "y": 240,
+        "wires": [
+            [
+                "f76c68daa1932252",
+                "611ffbde2e896464"
+            ]
+        ]
+    },
+    {
+        "id": "baf0f823c5bd9d82",
+        "type": "function",
+        "z": "3399eb792965d6a2",
+        "name": "whatsapp",
+        "func": "var msg1={}\nvar data = msg.payload;\nvar number=global.get(\"mobile\")\nmsg.payload={\"username\":\"erawhatsapp\",\"password\":\"eras4567\",\"route\":2,\"number\":\"91\"+global.get(\"mobile\"),\"message\":global.get(\"WaM\") }\nmsg1.payload={\"number\":global.get(\"mobile\"),\"message\":global.get(\"WaM\") }\n\n// number \nreturn [msg,msg1];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 120,
+        "wires": [
+            [
+                "c8e99d6a7341a52b",
+                "9a7d645b43d34287"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "480b51c88a3130f8",
+        "type": "json",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 410,
+        "y": 60,
+        "wires": [
+            [
+                "baf0f823c5bd9d82"
+            ]
+        ]
+    },
+    {
+        "id": "9a7d645b43d34287",
+        "type": "http request",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "query",
+        "url": "http://182.156.200.179:1880/api/v2/wa-api/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 810,
+        "y": 160,
+        "wires": [
+            [
+                "20b5b8d785db6dea",
+                "50358960a44c3691",
+                "bfdc2b567d3072d5"
+            ]
+        ]
+    },
+    {
+        "id": "20b5b8d785db6dea",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 30",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "f76c68daa1932252",
+        "type": "function",
+        "z": "3399eb792965d6a2",
+        "name": "function 18",
+        "func": "var data=msg.payload\nglobal.set(\"WaM\",data)\nglobal.set(\"dia\",0)\nglobal.set(\"sys\",0)\nglobal.set(\"spo\",0)\nglobal.set(\"pr\",0)\nglobal.set(\"h\",0)\nglobal.set(\"w\",0)\nglobal.set(\"bmi\",0)\n// global.set(\"pid\",\"2233790\")\n// global.set(\"mobile\",\"6393523580\")\nglobal.set(\"hold\",0)\nmsg.payload=global.get(\"sms\");\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 240,
+        "wires": [
+            [
+                "650f4ec1c00558c9",
+                "734727d9c2075092"
+            ]
+        ]
+    },
+    {
+        "id": "bfdc2b567d3072d5",
+        "type": "function",
+        "z": "3399eb792965d6a2",
+        "name": "line break",
+        "func": "msg.payload={\"data\":\"------------------------------------------------------------------------------------------------------------------------------------------------\"}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 200,
+        "wires": [
+            [
+                "50358960a44c3691",
+                "20b5b8d785db6dea"
+            ]
+        ]
+    },
+    {
+        "id": "bc0c0b85a415f82f",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 31",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "135eb35e084e8386",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 32",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "7011d254d64c7415",
+        "type": "template",
+        "z": "3399eb792965d6a2",
+        "name": "Hindi",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "************************************************\n                 सर्वोदय पेशेंट कियोस्क\n            (SARVODAYA PATIENT KIOSK)\n************************************************\n                     रिपोर्ट(REPORT)\n------------------------------------------------\nदिनांक: {{payload.date}} \nपहचान संख्या(PID): {{payload.PID}}      आयु/लिंग:{{payload.age}}/{{payload.gender}}\nनाम:\nमोबाइल नंबर:  {{payload.mobile}}\nमशीन का नाम: {{payload.machineName}}\n------------------------------------------------\nमापे गए पैरामीटर\n------------------------------------------------\nलंबाई                  : {{payload.height}} cm\nवजन                  : {{payload.weight}} kg\nबॉडी मास इंडेक्स(BMI)     : {{payload.BMI}} kg/m2\nरक्तचाप(BP)(Sys/Dia)   : {{payload.BP_Sys}}/{{payload.BP_Dias}} mmHg\nSpO2                 : {{payload.spo2}} %\nपल्स रेट                : {{payload.Pulse}} bpm\n------------------------------------------------\nअनुमानित पैरामीटर (लगभग)\n------------------------------------------------\nशारीरिक वसा (Fat)         : {{payload.BodyFat}}\nआधारीय चयापचयी दर(BMR)    : {{payload.BasalMetabolicRate}}\nकुल शारीरिक जल            : {{payload.TotalBodyWater}}\nलीन शारीरिक मास            : {{payload.LeanBodyMass}}\n************************************************\n      Powered By: Criterion Technologies.\n************************************************\n       यहां से फाड़ें - फाड़ने के लिए पर्ची को सामने खींचें\n\n\n\n\n",
+        "output": "str",
+        "x": 530,
+        "y": 280,
+        "wires": [
+            [
+                "f76c68daa1932252",
+                "611ffbde2e896464"
+            ]
+        ]
+    },
+    {
+        "id": "4e8352a5a9949785",
+        "type": "sqlite",
+        "z": "3399eb792965d6a2",
+        "mydb": "c96755613a526141",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 590,
+        "y": 560,
+        "wires": [
+            [
+                "cb353b2474aa9d33"
+            ]
+        ]
+    },
+    {
+        "id": "97b8049fcc25ad08",
+        "type": "inject",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic1",
+                "v": "CREATE TABLE IF NOT EXISTS patient_data (         id INTEGER PRIMARY KEY AUTOINCREMENT,         date TEXT,         machineName TEXT,         age TEXT,         gender TEXT,         uname TEXT,         PID INTEGER,         mobile TEXT,         height REAL,         weight REAL,         BMI REAL,         BodyFat REAL,         BasalMetabolicRate REAL,         TotalBodyWater REAL,         LeanBodyMass REAL,         BP_Sys INTEGER,         BP_Dias INTEGER,         spo2 INTEGER,         Pulse INTEGER     )",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select * from patient_data ;",
+        "payload": "",
+        "payloadType": "date",
+        "x": 440,
+        "y": 760,
+        "wires": [
+            [
+                "4e8352a5a9949785"
+            ]
+        ]
+    },
+    {
+        "id": "cb353b2474aa9d33",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 33",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "c267b717588e054a",
+        "type": "inject",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "sms,8707207992,hi",
+        "payloadType": "str",
+        "x": 130,
+        "y": 500,
+        "wires": [
+            [
+                "d042fc19d74debd3"
+            ]
+        ]
+    },
+    {
+        "id": "650f4ec1c00558c9",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 36",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1280,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d00dca39aeefc2c3",
+        "type": "inject",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 80,
+        "wires": [
+            [
+                "d042fc19d74debd3"
+            ]
+        ]
+    },
+    {
+        "id": "611ffbde2e896464",
+        "type": "function",
+        "z": "3399eb792965d6a2",
+        "name": "Paper CUT",
+        "func": "var data = msg.payload\nnode.send(msg)\nmsg.payload = Buffer.from([0x1D, 0x56, 0x42, 0x00]);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 300,
+        "wires": [
+            [
+                "0288c9c555b7dd6b",
+                "bc0c0b85a415f82f",
+                "40de49bc47964e4f",
+                "731e665bdc972cea"
+            ]
+        ]
+    },
+    {
+        "id": "f98489d95ba7552a",
+        "type": "inject",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 640,
+        "wires": [
+            [
+                "d042fc19d74debd3"
+            ]
+        ]
+    },
+    {
+        "id": "91cb89a4faf52800",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 43",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "734727d9c2075092",
+        "type": "file",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "filename": "/home/pi/sms.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1180,
+        "y": 260,
+        "wires": [
+            [
+                "91cb89a4faf52800"
+            ]
+        ]
+    },
+    {
+        "id": "40de49bc47964e4f",
+        "type": "file",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "filename": "/home/pi/print.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1040,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "731e665bdc972cea",
+        "type": "debug",
+        "z": "3399eb792965d6a2",
+        "name": "debug 46",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "af176e83c397fee4",
+        "type": "inject",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "network",
+        "payloadType": "str",
+        "x": 700,
+        "y": 780,
+        "wires": [
+            [
+                "04e4378580d36064"
+            ]
+        ]
+    },
+    {
+        "id": "04e4378580d36064",
+        "type": "file",
+        "z": "3399eb792965d6a2",
+        "name": "",
+        "filename": "/home/pi/net.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 920,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "25c55f7ea1c746d5",
+        "type": "link in",
+        "z": "3399eb792965d6a2",
+        "name": "link in 1",
+        "links": [
+            "cee4f0c024c0c9b7"
+        ],
+        "x": 845,
+        "y": 280,
+        "wires": [
+            [
+                "0288c9c555b7dd6b"
+            ]
+        ]
+    },
+    {
+        "id": "62bbbecefdbaa86e",
+        "type": "websocket out",
+        "z": "900b5e2a8c8d67fe",
+        "name": "",
+        "server": "039840e2d13a1fe3",
+        "client": "",
+        "x": 1080,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "920126614a8a3440",
+        "type": "function",
+        "z": "900b5e2a8c8d67fe",
+        "name": "function 21",
+        "func": "var w=global.get(\"w\")\nvar h=global.get(\"h\")\nvar bmi=global.get(\"bmi\")\nvar spo=global.get(\"spo\")\nvar pr=global.get(\"pr\")\nvar sys=global.get(\"sys\")\nvar dia=global.get(\"dia\")\nmsg.payload=w+\",\"+h+\",\"+bmi+\",\"+spo+\",\"+pr+\",\"+sys+\",\"+dia;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 260,
+        "wires": [
+            [
+                "62bbbecefdbaa86e"
+            ]
+        ]
+    },
+    {
+        "id": "eb388d01f8e67b4f",
+        "type": "inject",
+        "z": "900b5e2a8c8d67fe",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 260,
+        "wires": [
+            [
+                "920126614a8a3440"
+            ]
+        ]
+    },
+    {
+        "id": "cd0d5a5f84ead86d",
+        "type": "inject",
+        "z": "900b5e2a8c8d67fe",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 100,
+        "wires": [
+            [
+                "1b322e5d6189e612"
+            ]
+        ]
+    },
+    {
+        "id": "1b322e5d6189e612",
+        "type": "exec",
+        "z": "900b5e2a8c8d67fe",
+        "command": "hostname",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 400,
+        "y": 100,
+        "wires": [
+            [
+                "713dc264bd44b942"
+            ],
+            [
+                "713dc264bd44b942"
+            ],
+            [
+                "713dc264bd44b942"
+            ]
+        ]
+    },
+    {
+        "id": "713dc264bd44b942",
+        "type": "debug",
+        "z": "900b5e2a8c8d67fe",
+        "name": "debug 66",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a7cbf6aec8e28e15",
+        "type": "http in",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "url": "/mk/bmi",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 440,
+        "wires": [
+            [
+                "68a77329d097a250"
+            ]
+        ]
+    },
+    {
+        "id": "f120f67ac9c76a80",
+        "type": "http response",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 750,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "68a77329d097a250",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 13",
+        "func": "msg.payload = { \"H\": global.get(\"h\"), \"W\": global.get(\"w\")}\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 460,
+        "wires": [
+            [
+                "f120f67ac9c76a80",
+                "8427c0d57fe9b99f"
+            ]
+        ]
+    },
+    {
+        "id": "a45466ec156f3cee",
+        "type": "http in",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "url": "/mk/bp",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 500,
+        "wires": [
+            [
+                "f1563278579da359"
+            ]
+        ]
+    },
+    {
+        "id": "2d02b20b01b8135a",
+        "type": "http response",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 750,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "f1563278579da359",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 14",
+        "func": "msg.payload = { \"sys\": global.get(\"sys\"), \"dia\": global.get(\"dia\")}\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 520,
+        "wires": [
+            [
+                "2d02b20b01b8135a",
+                "8427c0d57fe9b99f"
+            ]
+        ]
+    },
+    {
+        "id": "f19cc95b336e8f88",
+        "type": "http in",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "url": "/mk/spo2",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 560,
+        "wires": [
+            [
+                "8cb586c757f0f017"
+            ]
+        ]
+    },
+    {
+        "id": "156e55eaa397122a",
+        "type": "http response",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 750,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "8cb586c757f0f017",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 15",
+        "func": "\nmsg.payload = { \"spo\": global.get(\"spo\"), \"pr\":global.get(\"pr\")}\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 580,
+        "wires": [
+            [
+                "156e55eaa397122a",
+                "8427c0d57fe9b99f"
+            ]
+        ]
+    },
+    {
+        "id": "b013992def07c92e",
+        "type": "http in",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "url": "/mk/otp",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 640,
+        "wires": [
+            [
+                "d666c422df74d194",
+                "38898cda80686c3e"
+            ]
+        ]
+    },
+    {
+        "id": "01e9d6e8fb821a4e",
+        "type": "http response",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1030,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "d666c422df74d194",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 16",
+        "func": "var data=msg.payload\nvar val=\"\"\nif(data.hasOwnProperty(\"otp\")){\n    val=data.otp\n}else{\n    val = Math.floor(1000 + Math.random() * 9000);\n}\nvar msg1={}\n// msg1=msg\nvar mob=msg.payload.mobile\nmsg.otp={\"otp\":val}\nmsg.topic=`select * from user where mobile = '${mob}' `\nmsg1.payload=`sms,${mob},PATIENT KIOSK LOGIN OTP:${val}`\nreturn [msg,msg1];",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 660,
+        "wires": [
+            [
+                "8427c0d57fe9b99f",
+                "4e7fd8344850b3fe",
+                "0d9af15e895bcd99"
+            ],
+            [
+                "dbcc16a7655a410c",
+                "38898cda80686c3e"
+            ]
+        ]
+    },
+    {
+        "id": "8427c0d57fe9b99f",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 29",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "0dbdac3dfa3ed515",
+        "type": "http in",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "url": "/mk/storebmi",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 1040,
+        "wires": [
+            [
+                "e34ed8febef9cd4a"
+            ]
+        ]
+    },
+    {
+        "id": "0de23650f822b617",
+        "type": "http response",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 490,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "e34ed8febef9cd4a",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 17",
+        "func": "var data=msg.payload\nmsg.topic = `select count(*) as data from user where mobile = '${data.mobile}'`\nmsg.topic_temp = `INSERT INTO user(uname, dob, gender, mobile, email) VALUES ('${data.uname}','${data.dob}','${data.gender}','${data.mobile}','${data.email}')`\n// INSERT INTO user(uname, dob, gender, mobile, email)\n// VALUES('John Doe', '1990-05-15', 'Male', '1234567890', 'johndoe@example.com');\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 980,
+        "wires": [
+            [
+                "8f837e329629504b"
+            ]
+        ]
+    },
+    {
+        "id": "8f837e329629504b",
+        "type": "sqlite",
+        "z": "ef62ab0cf2b98b66",
+        "mydb": "6503bace631428f0",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 500,
+        "y": 860,
+        "wires": [
+            [
+                "f93aeb88b565e44e",
+                "5546862a2987e472"
+            ]
+        ]
+    },
+    {
+        "id": "5dc18ff4878c9764",
+        "type": "inject",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select * from user where mobile='8176960770';",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 900,
+        "wires": [
+            [
+                "8f837e329629504b"
+            ]
+        ]
+    },
+    {
+        "id": "f93aeb88b565e44e",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 30",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "5546862a2987e472",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 19",
+        "func": "var msg1={}\nmsg1=msg\nif(msg.payload[0].data == 0){\n    msg.topic=msg.topic_temp\n    msg1.payload = { \"code\": 200, \"response\": \"Registration Successfull.\" }\n}else{\n    msg.topic=\"\"\n    msg1.payload = { \"code\": 201, \"response\": \"Mobile Number Already Registered\" }\n}\nreturn [msg,msg1];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 960,
+        "wires": [
+            [
+                "e2781f55beb33885",
+                "0de23650f822b617"
+            ],
+            [
+                "0de23650f822b617",
+                "feab1d0209bcef99"
+            ]
+        ]
+    },
+    {
+        "id": "e2781f55beb33885",
+        "type": "sqlite",
+        "z": "ef62ab0cf2b98b66",
+        "mydb": "6503bace631428f0",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 720,
+        "y": 960,
+        "wires": [
+            [
+                "feab1d0209bcef99"
+            ]
+        ]
+    },
+    {
+        "id": "feab1d0209bcef99",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 31",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "38898cda80686c3e",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 49",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "dbcc16a7655a410c",
+        "type": "file",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "filename": "/home/pi/sms.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 120,
+        "y": 740,
+        "wires": [
+            [
+                "38898cda80686c3e"
+            ]
+        ]
+    },
+    {
+        "id": "4e7fd8344850b3fe",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 50",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "0d9af15e895bcd99",
+        "type": "sqlite",
+        "z": "ef62ab0cf2b98b66",
+        "mydb": "6503bace631428f0",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 520,
+        "y": 780,
+        "wires": [
+            [
+                "9d6932ac61e4c385",
+                "dd81fb40cdd0f9f4"
+            ]
+        ]
+    },
+    {
+        "id": "9d6932ac61e4c385",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 24",
+        "func": "var data={}\nif(msg.payload.length === 0){\ndata.otp=msg.otp.otp;\n}else{\ndata=msg.payload[0]\ndata.otp = msg.otp.otp\n}\nmsg.payload=data\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 760,
+        "wires": [
+            [
+                "01e9d6e8fb821a4e",
+                "dd81fb40cdd0f9f4"
+            ]
+        ]
+    },
+    {
+        "id": "dd81fb40cdd0f9f4",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 51",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "d5fa60acaf25ae29",
+        "type": "http in",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "url": "/mk/print",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 40,
+        "wires": [
+            [
+                "f890dac1393590a9"
+            ]
+        ]
+    },
+    {
+        "id": "61762c68308787b3",
+        "type": "http response",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1090,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "f890dac1393590a9",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 25",
+        "func": "var msg1={}\nvar msg2={}\nmsg1=msg\nmsg2=msg\nvar val=msg.payload;\nmsg.data=val\nfunction formatDateToDDMMYYYYHHMMSS() {\n  const now = new Date();\n  const day = String(now.getDate()).padStart(2, '0');\n  const month = String(now.getMonth() + 1).padStart(2, '0'); // Month is zero-based\n  const year = now.getFullYear();\n  const hours = String(now.getHours()).padStart(2, '0');\n  const minutes = String(now.getMinutes()).padStart(2, '0');\n  const seconds = String(now.getSeconds()).padStart(2, '0');\n\n  const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;\n  return formattedDate;\n}\n// return msg;\nconst formattedDate = formatDateToDDMMYYYYHHMMSS();\nvar bp=val.bp\nbp=bp.split(\"/\")\n// console.log(formattedDate);\nvar data={\"machineName\": \"BMI 121\",\"height\": val.h,\"weight\": val.w}\nmsg.payload=data\n    var data1 = {\n        \"PID\": \"1111111\",\n        \"BP_Sys\": bp[0],\n        \"BP_Dias\": bp[1],\n        \"Pulse\": val.pr,\n        \"Temperature\": \"\",\n        \"spo2\": val.spo,\n        \"RR\": \"\",\n        \"HR\": \"\",\n        \"BP_Pulse\": val.pr\n    }\nmsg1.payload=data1\nvar machine=\"BMI1\"\n    var data2 = {\n        \"date\":formattedDate,\n        \"machineName\" : \"Patient kiosk\",\n        \"age\":val.age+ \" years\",\n        \"gender\":val.gender,\n        \"uname\":val.uname,\n        \"mobile\":val.mobile,\n        \"height\": val.h,\n        \"weight\": val.w,\n        \"BMI\": val.bmi,\n        \"BodyFat\": val.bfp,\n        \"BasalMetabolicRate\":val.bmr,\n        \"TotalBodyWater\":val.tbw,\n        // \"LeanBodyMass\":global.get(\"lbm\"),\n        \"BP_Sys\": bp[0],\n        \"BP_Dias\": bp[1],\n        \"spo2\": val.spo,\n        \"Pulse\": val.pr\n\n    }\nmsg2.payload=data2\nmsg2.topic=`INSERT INTO patient_data (\n        date,\n        machineName,\n        age,\n        gender,\n        uname,\n        PID,\n        mobile,\n        height,\n        weight,\n        BMI,\n        BodyFat,\n        BasalMetabolicRate,\n        TotalBodyWater,\n        LeanBodyMass,\n        BP_Sys,\n        BP_Dias,\n        spo2,\n        Pulse\n    )\n    VALUES (\n        '${formattedDate}',\n        '${machine}',\n        '${val.age}',\n        '${(val.gender== \"1\")?\"Male\":\"Female\"}',\n        '${val.uname}',\n        111111,\n        '${val.mobile}',\n        ${val.h},\n        ${val.w},\n        ${val.bmi},\n        ${parseFloat(val.bfp)},\n        ${parseFloat(val.bmr)},\n        ${parseFloat(val.tbw)},\n        ${parseFloat(val.w-val.bfp)},\n        ${bp[0]},\n        ${bp[1]},\n        ${val.spo},\n        ${val.pr}\n        \n    );\n`\nconst tamp = Math.floor(Date.now() / 1000);\n// console.log(currentUnixTimestamp);\n\nvar sms = `sms,${val.mobile},PATIENT KIOSK  Ref No: ${tamp} | Height: ${val.h} | Weight: ${val.w} | BMI: ${val.bmi} | BP: ${val.bp} | SPO2: ${val.spo} | Pulse: ${val.pr} \\n`;\nglobal.set(\"sms\",sms)\nglobal.set(\"mobile\",val.mobile)\nif(parseInt(global.get(\"lang\")) == 1){\n    return [msg, msg1, msg2, null];\n}else{\n    return [msg, msg1,null,msg2];\n}\n",
+        "outputs": 4,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 140,
+        "wires": [
+            [
+                "db1584788f28b37e",
+                "184355ede7630a4f"
+            ],
+            [
+                "db1584788f28b37e",
+                "184355ede7630a4f"
+            ],
+            [
+                "03fd6948fa13aaf8",
+                "a9a388254a8c6952",
+                "8894b590d86aae06",
+                "6a16f37f27625ebb",
+                "184355ede7630a4f"
+            ],
+            [
+                "8894b590d86aae06",
+                "03fd6948fa13aaf8",
+                "cd7a1116a19d3098",
+                "184355ede7630a4f"
+            ]
+        ]
+    },
+    {
+        "id": "03fd6948fa13aaf8",
+        "type": "template",
+        "z": "ef62ab0cf2b98b66",
+        "name": "English",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "************************************************\n                 PATIENT KIOSK\n************************************************\n                 Vital Summary\n------------------------------------------------\nDATE: {{payload.date}} \nNAME: {{payload.uname}}\nAge/Gender:{{payload.age}}/{{payload.gender}}\nMOBILE NUMBER: {{payload.mobile}}\nMACHINE NAME: {{payload.machineName}}\n------------------------------------------------\nMeasured Parameters\n------------------------------------------------\nHeight                  : {{payload.height}} cm\nWeight                  : {{payload.weight}} kg\nBMI                     : {{payload.BMI}} kg/m2\nBlood Pressure(Sys/Dia) : {{payload.BP_Sys}}/{{payload.BP_Dias}} mmHg\nSpO2                    : {{payload.spo2}} %\nPulse Rate              : {{payload.Pulse}} bpm\n------------------------------------------------\nEstimated Parameters (Approx)\n------------------------------------------------\nBody Fat                : {{payload.BodyFat}}\nBasal Metabolic Rate    : {{payload.BasalMetabolicRate}}\nTotal Body Water        : {{payload.TotalBodyWater}}\n************************************************\n      Powered By: Criterion Technologies.\n************************************************\n",
+        "output": "str",
+        "x": 520,
+        "y": 120,
+        "wires": [
+            [
+                "510f349c21b77f54",
+                "4ed2e77a6831235a",
+                "d92827298d2ce6b7"
+            ]
+        ]
+    },
+    {
+        "id": "db1584788f28b37e",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 52",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "a9a388254a8c6952",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 53",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "510f349c21b77f54",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 26",
+        "func": "var data=msg.payload\nglobal.set(\"WaM\",data)\n// global.set(\"dia\",0)\n// global.set(\"sys\",0)\n// global.set(\"spo\",0)\n// global.set(\"pr\",0)\n// global.set(\"h\",0)\n// global.set(\"w\",0)\n// global.set(\"bmi\",0)\n// global.set(\"pid\",\"2233790\")\n// global.set(\"mobile\",\"6393523580\")\nglobal.set(\"hold\",0)\nmsg.payload=global.get(\"sms\");\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 80,
+        "wires": [
+            [
+                "a04d822c4f9829a5",
+                "184355ede7630a4f",
+                "22e058f0f46c6d67"
+            ]
+        ]
+    },
+    {
+        "id": "4ed2e77a6831235a",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "Paper CUT",
+        "func": "var data = msg.payload\nnode.send(msg)\nglobal.set(\"clear_data\",\"1\")\nmsg.payload = Buffer.from([0x1D, 0x56, 0x42, 0x00]);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 140,
+        "wires": [
+            [
+                "df77519b58f0a469",
+                "1da54b40121a1163",
+                "cee4f0c024c0c9b7",
+                "21876feeddeab604",
+                "184355ede7630a4f"
+            ]
+        ]
+    },
+    {
+        "id": "df77519b58f0a469",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 54",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "a04d822c4f9829a5",
+        "type": "file",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "filename": "/home/pi/sms.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 940,
+        "y": 40,
+        "wires": [
+            [
+                "1fad3cdfa387c22f",
+                "6b41c38dadee4146"
+            ]
+        ]
+    },
+    {
+        "id": "1fad3cdfa387c22f",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 55",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "184355ede7630a4f",
+        "type": "http request",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://182.156.200.179:1880/api/v2/bmi",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 650,
+        "y": 260,
+        "wires": [
+            [
+                "dfe30685f50f1d02"
+            ]
+        ]
+    },
+    {
+        "id": "dfe30685f50f1d02",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 56",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "1da54b40121a1163",
+        "type": "file",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "filename": "/home/pi/print.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1020,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8894b590d86aae06",
+        "type": "sqlite",
+        "z": "ef62ab0cf2b98b66",
+        "mydb": "c96755613a526141",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "9e4ac6b997fb2c4b"
+            ]
+        ]
+    },
+    {
+        "id": "9e4ac6b997fb2c4b",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 58",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "cee4f0c024c0c9b7",
+        "type": "link out",
+        "z": "ef62ab0cf2b98b66",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "25c55f7ea1c746d5"
+        ],
+        "x": 865,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d92827298d2ce6b7",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 59",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "6a16f37f27625ebb",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 60",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 160,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "cd7a1116a19d3098",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 61",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 160,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "21876feeddeab604",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 27",
+        "func": "msg.payload={\"code\":200,\"response\":\"send success\"}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 240,
+        "wires": [
+            [
+                "61762c68308787b3"
+            ]
+        ]
+    },
+    {
+        "id": "69142d8d4ffe85f6",
+        "type": "inject",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic2",
+                "v": "INSERT INTO patient_data ( date, machineName, age, gender, uname, PID, mobile, height, weight, BMI, BodyFat, BasalMetabolicRate, TotalBodyWater, LeanBodyMass, BP_Sys, BP_Dias, spo2, Pulse ) VALUES ( '10-10-2023 10:52:12', 'BMI1', '32', 'Male', 'yusuf raza', 1111111, '8707207992', 109, 5.26, 4.43, -0.35 %, 578.85 Kcal, 12.99 Liter, undefined, 0, 0, 99, 91 )",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "PRAGMA table_info(patient_data);",
+        "payload": "",
+        "payloadType": "date",
+        "x": 320,
+        "y": 400,
+        "wires": [
+            [
+                "8894b590d86aae06",
+                "03fd6948fa13aaf8"
+            ]
+        ]
+    },
+    {
+        "id": "10f89954326401d4",
+        "type": "http in",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "url": "/mk/reset",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 1120,
+        "wires": [
+            [
+                "64199c75f888ac4b",
+                "4b9a2bb425f86194"
+            ]
+        ]
+    },
+    {
+        "id": "64199c75f888ac4b",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 28",
+        "func": "if(msg.payload.act == \"true\"){\nreturn msg;\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 1140,
+        "wires": [
+            [
+                "d4d09c75521ed782",
+                "1af2c3c429b2cfbf"
+            ]
+        ]
+    },
+    {
+        "id": "d4d09c75521ed782",
+        "type": "http response",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 790,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "1af2c3c429b2cfbf",
+        "type": "exec",
+        "z": "ef62ab0cf2b98b66",
+        "command": "sudo pkill chromium*",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 700,
+        "y": 1080,
+        "wires": [
+            [
+                "b482cc3cf2270d27"
+            ],
+            [
+                "b482cc3cf2270d27"
+            ],
+            [
+                "b482cc3cf2270d27"
+            ]
+        ]
+    },
+    {
+        "id": "4b9a2bb425f86194",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 62",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "abb5d13371919b2c",
+        "type": "http in",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "url": "/mk/network",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 165,
+        "y": 1476,
+        "wires": [
+            [
+                "460143881b9a9de2"
+            ]
+        ]
+    },
+    {
+        "id": "460143881b9a9de2",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 29",
+        "func": "msg.payload = { \"ip\": global.get(\"ip\"), \"network\": global.get(\"network\")}\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 435,
+        "y": 1496,
+        "wires": [
+            [
+                "08050124bc8213be"
+            ]
+        ]
+    },
+    {
+        "id": "08050124bc8213be",
+        "type": "http response",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 735,
+        "y": 1496,
+        "wires": []
+    },
+    {
+        "id": "6b41c38dadee4146",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "whatsapp",
+        "func": "var msg1={}\n// var data = msg.payload;\nvar number=global.get(\"mobile\")\nmsg.payload={\"username\":\"erawhatsapp\",\"password\":\"eras4567\",\"route\":2,\"number\":\"91\"+global.get(\"mobile\"),\"message\":global.get(\"WaM\") }\nmsg1.payload={\"number\":global.get(\"mobile\"),\"message\":global.get(\"WaM\") }\n\n// number \nreturn [msg,msg1];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1160,
+        "y": 100,
+        "wires": [
+            [
+                "3666c11d203482ac"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "3666c11d203482ac",
+        "type": "http request",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "query",
+        "url": "http://wa.azmobia.com/api/http-api.php",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1290,
+        "y": 160,
+        "wires": [
+            [
+                "f1dcf14c4061ea27",
+                "184355ede7630a4f"
+            ]
+        ]
+    },
+    {
+        "id": "f1dcf14c4061ea27",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 63",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "b482cc3cf2270d27",
+        "type": "exec",
+        "z": "ef62ab0cf2b98b66",
+        "command": "DISPLAY=:0 onboard &",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 1050,
+        "y": 1080,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "c5d8a91980b580b4",
+        "type": "inject",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 960,
+        "y": 1180,
+        "wires": [
+            [
+                "b482cc3cf2270d27"
+            ]
+        ]
+    },
+    {
+        "id": "b16ef4f1ae25da54",
+        "type": "http in",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "url": "/mk/clear",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 1560,
+        "wires": [
+            [
+                "422fdc006f58aa5a",
+                "698e0516708b31be"
+            ]
+        ]
+    },
+    {
+        "id": "422fdc006f58aa5a",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "function 30",
+        "func": "if(msg.payload.act == \"bmi\"){\nglobal.set(\"w\",0)\nglobal.set(\"h\",0)\nglobal.set(\"bmi\",0)\n}\nif (msg.payload.act == \"bp\"){\nglobal.set(\"sys\",0)\nglobal.set(\"dia\",0)\n// global.set(\"bmi\",0)\n}\nif (msg.payload.act == \"spo2\"){\nglobal.set(\"spo\",0)\nglobal.set(\"pr\",0)\n// global.set(\"bmi\",0)\n}\nmsg.payload={\"responce\":\"success\"}\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1580,
+        "wires": [
+            [
+                "ce2e4bbdf2763ee7"
+            ]
+        ]
+    },
+    {
+        "id": "ce2e4bbdf2763ee7",
+        "type": "http response",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "698e0516708b31be",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 64",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "d6a20a1c7f4e1794",
+        "type": "http request",
+        "z": "ef62ab0cf2b98b66",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "query",
+        "url": "http://182.156.200.179:1880/api/v2/wa-api/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 890,
+        "y": 420,
+        "wires": [
+            [
+                "0c1e75619dc4a28a",
+                "184355ede7630a4f"
+            ]
+        ]
+    },
+    {
+        "id": "22e058f0f46c6d67",
+        "type": "function",
+        "z": "ef62ab0cf2b98b66",
+        "name": "whatsapp",
+        "func": "var msg1={}\nvar data = msg.payload;\nvar number=global.get(\"mobile\")\nmsg.payload={\"username\":\"erawhatsapp\",\"password\":\"eras4567\",\"route\":2,\"number\":msg.data.mobile,\"message\":global.get(\"WaM\") }\nmsg1.payload={\"number\":msg.data.mobile,\"message\":global.get(\"WaM\") }\n\n// number \nreturn [msg,msg1];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 380,
+        "wires": [
+            [
+                "d6a20a1c7f4e1794"
+            ],
+            [
+                "184355ede7630a4f"
+            ]
+        ]
+    },
+    {
+        "id": "0c1e75619dc4a28a",
+        "type": "debug",
+        "z": "ef62ab0cf2b98b66",
+        "name": "debug 65",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 400,
+        "wires": []
+    }
+]

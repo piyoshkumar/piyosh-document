@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      .netwokk {
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        margin: 50px 0 0;
+        text-align: center;
+      }
+    
+      .netwokk-in img {
+        height: 25px;
+        margin-bottom: 8px;
+      }
+    
+      .netwokk-in p strong {
+        margin-right: 5px;
+      }
+    
+      .netwokk-in p {
+        color: #fff;
+        margin-bottom: 0px;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
+  </head>
+<body>
+<div class="bg-img pe-3">
+  <section class="header">
+    <div class="top-header">
+        <div class="top-in">
+          <div class="logo"><img src="images/logo.png"></div>
+        </div>
+        <div class="top-in">
+          <div class="top-in1">
+            <!-- <h4 id="uname">Faizan Ahmad</h4> -->
+            <!-- <p id="age">26 Y Male <strong>2365478</strong></p> -->
+          </div>
+          <!-- <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                    document.getElementById("uname").innerText = localStorage.getItem("uname");
+                    document.getElementById("age").innerHTML = localStorage.getItem("age") + " Y " + localStorage.getItem("gender") +" <strong>"+localStorage.getItem("id")+" <strong>";
+                    });
+          </script> -->
+          <div class="top-in2">
+            <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+            <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a></div>
+          </div>
+         
+        </div>
+    </div>
+  </section>
+
+  <section class="middle">
+    <h3 class="welcometxt"> Welcome to<br/>Patient Kiosk</h3>
+    <div class="bg" id="loginpage">
+      <a href="MobileNo.html"><div class="btn-custom greenbtn">Login</div></a>
+      <a href="signup.html"><div class="btn-custom purplebtn">Sign Up</div></a>
+      <div class="terms">
+        <a href="#">
+          <input type="checkbox" style="border-radius: 0px; width: auto; border: 1px solid #ddd; height: auto;  margin-bottom: 0;     padding: 0;     color: #595252;"> 
+          <strong>Terms & Conditions</strong></a></div>
+    </div>
+    <div class="bg" id="mastlock" style="display:none">
+      <input type="text" class="keyboard-input" id="mpass" placeholder="Enter Master Password" aria-label="Recipient's username" aria-describedby="button-addon2">
+      <div class="btn-custom greenbtn" onclick="resetPage()"><i class="fa-solid fa-lock-open"></i></div>
+      <!-- <div class="btn-custom purplebtn">Sign Up</div> -->
+      <div class="terms"><br><a href="#"><strong>The application will close after clicking the submit button.</strong></a>
+      </div>
+    </div>
+  <div class="netwokk">
+    <div class="netwokk-in" id="net"><img src="images/0.png"><p>Registered</p>
+    </div>
+    <div class="netwokk-in"><i class="fa-solid fa-wifi" style="color:#fff;font-size:25px;"></i>
+      <p id="ips">192.168.8.2</p>
+    </div>
+  </div>
+  
+  </section>
+
+
+  <section class="footer">
+    <div class="footer-in">
+      <div class="footer-logo" onclick="toggleElements()"><img src="images/footerlogo.png"></div>
+      <div class="lang">
+        <div class="ft">
+          <div class="reportss">
+            <a href="#"onclick="window.location.href ='/bmi-hi/'">
+              हिंदी चुनें
+            </a>
+          </div>
+        <!-- <div class="dropdown"> -->
+          <!-- <button type="button" class="btn-custom greenbtn" data-bs0-toggle="dropdown" style="" onclick="window.location.href ='/bmi-hi/'"> -->
+            <!-- <img src="images/flag.png">हिंदी चुनें -->
+          <!-- </button> -->
+          <!-- <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#" onclick="window.location.href ='/bmi3/'">
+              English
+              <img src="images/flag.png">
+            </a></li>
+            <li><a class="dropdown-item" href="#" onclick="window.location.href ='/bmi-hi/'">
+              Hindi
+              <img src="images/flag.png">
+            </a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul> -->
+        <!-- </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<script src="js/script.js"></script>
+<script src="js/function.js"></script>
+<script>
+function toggleElements() {
+const mastlock = document.getElementById('mastlock');
+const loginpage = document.getElementById('loginpage');
+
+if (mastlock.style.display === 'none') {
+mastlock.style.display = 'block';
+loginpage.style.display = 'none';
+} else {
+mastlock.style.display = 'none';
+loginpage.style.display = 'block';
+}
+}
+function getnetwork(){
+fetch('http://'+currentUrl+'/mk/network')
+.then(response => {
+if (response.status === 200) {
+return response.json();
+} else {
+throw new Error('Request failed');
+}
+})
+.then(data => {
+console.log(data)
+// document.getElementById("spo").value = spo
+ document.getElementById("ips").innerText = data.ip
+ if(data.network == 0){
+document.getElementById("net").innerHTML="<img src='images/0.png'><p>No Network</p>"
+ }else if(data.network == 1){
+document.getElementById("net").innerHTML="<img src='images/1.png'><p>Not Registered</p>"
+}if(data.network == 2){
+document.getElementById("net").innerHTML="<img src='images/2.png'><p>Registered</p>"
+}
+
+})
+.catch(error => {
+console.error('Error:', error);
+});
+}
+setInterval(getnetwork,1000)
+  </script>
+
+    
+</body>
+</html>
+ 

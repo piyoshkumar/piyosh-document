@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/sweetalert.js"></script>
+
+
+    <link rel="stylesheet" href="css/all.min.css"/>
+  </head>
+<body>
+<div class="bg-img pe-3">
+
+  <!-- <div id="mydiv">
+    <div id="mydivheader">Click here to move</div>
+  </div> -->
+ 
+  <section class="header">
+    <div class="top-header">
+        <div class="top-in">
+          <div class="logo"><img src="images/logo.png"></div>
+        </div>
+        <div class="top-in">
+          <div class="top-in2">
+            <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+            <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a></div>
+          </div>
+         
+        </div>
+    </div>
+  </section>
+<div id="divId" ></div>
+  <section class="middle">
+    <h3 class="welcometxt">पेशेंट कियॉस्क <br/>आपका स्वागत करता है !</h3>
+    <h4 class="mbn">ओटीपी से लॉगिन करने के लिए अपना मोबाइल नंबर दर्ज करें!</h4>
+    <div class="bg bg1">
+        <div class="mb">
+          <input class='keyboard-input' type="text" id="mobile" placeholder="मोबाइल नंबर दर्ज करें"> 
+          <select><option>+91</option></select>
+        </div>
+        <!-- <a href="" onClick="loginWithOTP()"> -->
+          <div class="btn-custom greenbtn" onClick="loginWithOTP()">ओटीपी से लॉगिन करें</div>
+        <!-- </a> -->
+        <div class="terms"><a href="#">
+          <input type="checkbox" checked style="border-radius: 0px; width: auto; border: 1px solid #ddd; height: auto;  margin-bottom: 0;     padding: 0;     color: #595252;">
+          <strong>नियम एवं शर्तें </strong></a></div>
+    </div>
+  </section>
+
+  <section class="footer">
+    <div class="footer-in">
+      <div class="footer-logo"><img src="images/footerlogo.png"></div> 
+      <div class="lang">
+        <div class="ft">
+          <div class="reportss">
+            <a href="#"onclick="window.location.href ='/bmi3/MobileNo.html'">
+              Select English
+            </a>
+          </div>
+          <!-- <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="images/flag.png">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+   
+</div>
+<script src="js/script.js"></script>
+<script src="js/function.js"></script>
+
+<script>
+  // Make the DIV element draggable:
+dragElement(document.getElementById("mydiv"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+ </script>
+
+ 
+<script>
+ 
+  function alert2(){
+  Swal.fire({
+  icon: 'error',
+  title: 'उफ़....',
+  text: 'ग़लत मोबाइल नंबर. कृपया मोबाइल नंबर दर्ज करें.'
+  // footer: '<a href="">Why do I have this issue?</a>'
+  })
+  }
+  function loginWithOTP() {
+      // Get the mobile number from the input field
+      var mobileNumber = document.getElementById("mobile").value;
+      if(mobileNumber.length < 10 || mobileNumber.length > 10){
+        document.getElementById("mobile").value = ""
+        alert2()
+      }else{
+        // Redirect to the OTP.html page with the constructed URL
+        window.location.href = "OTP.html?mobile=" + mobileNumber;
+      }
+  }
+</script>
+ 
+
+</body>
+</html>
+ 

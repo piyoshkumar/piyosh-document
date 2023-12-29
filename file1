@@ -1,0 +1,13 @@
+jenkins ip address - 172.16.5.250:8085
+user id -piyosh
+passwd -piyosh@123
+
+jenkins upload repository concept
+
+new item 
+project name
+free style -ok push
+build triggrs
+poll scm
+H/15 * * * *
+

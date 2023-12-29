@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
+  </head>
+<body>
+<div class="bg-img pe-3">
+  <section class="header">
+    <div class="top-header">
+        <div class="top-in">
+          <div class="logo"><img src="images/logo.png"></div>
+        </div>
+        <div class="top-in">
+          <div class="top-in2">
+            <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+            <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a></div>
+          </div>
+         
+        </div>
+    </div>
+  </section>
+
+  <section class="middle">
+    <h3 class="logintxt">Sign Up</h3>
+    <p class="paratxt">Let’s Get Started</p>
+    <div class="bg">
+         <label>Enter your name</label>
+         <input class='keyboard-input' type="text" placeholder="Enter your name" id="uname"> 
+
+        <div class="dbo">
+           <div class="dbo-1"> 
+             <label>Enter your DOB</label>
+             <input class='keyboard-input' type="date" id="dob"> 
+           </div>
+           <div class="dbo-1"> 
+            <label>Gender</label>
+            <div class="rdo-in">
+              <label class="rdo">Male
+                <input type="radio" checked="checked" name="radio" value="male" id="gender1">
+                <span class="checkmark"></span>
+              </label>
+              <label class="rdo">Female
+                <input type="radio" name="radio" value="female" id="gender2">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+         <label>Enter your mobile no.</label>
+         <input class='keyboard-input' type="number"  id="mobile" placeholder="Enter Mobile Number"> 
+
+         <label>Enter your email address</label>
+         <input class='keyboard-input' type="number" placeholder="Enter Email ID" id="email"> 
+
+         <!-- <a href="signup.html"> -->
+          <div class="btn-custom purplebtn mt-2" onclick="register()">Sign Up</div>
+        <!-- </a> -->
+        <div class="or">OR</div>
+        <div class="loginbtn"><a href="index.html">Login with OTP</a></div>
+        <div class="terms">By signing in you agree to our<br/><a href="#"><strong>Terms & Conditions and Privacy Policy</strong></a></div>
+    </div>
+  </section>
+
+
+  <section class="footer">
+    <div class="footer-in">
+      <div class="footer-logo"><img src="images/footerlogo.png"></div>
+      <div class="lang">
+        <div class="ft">
+        <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="images/flag.png">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/script.js"></script>
+<script src="js/function.js"></script> 
+</body>
+</html>
+ 

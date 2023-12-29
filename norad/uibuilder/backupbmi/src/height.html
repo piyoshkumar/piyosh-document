@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Patient Kiosk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      const currentUrl2=window.location.host
+            fetch('http://' + currentUrl2 + '/mk/clear?act=bmi')
+            .then(response => {
+            if (response.ok) {
+            console.log('Clear request was successful.');
+            } else {
+            console.error('Error:', response.statusText);
+            }
+            })
+            .catch(error => {
+            // console.error('Error:', error);
+            });
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
+  </head>
+<body>
+<div class="bg-img pe-3">
+  <section class="header">
+    <div class="top-header">
+        <div class="top-in">
+          <div class="logo"><img src="images/logo.png"></div>
+        </div>
+        <div class="top-in">
+          <div class="top-in1">
+            <h4 id="uname">Faizan Ahmad</h4>
+            <p id="age">26 Y Male <strong>2365478</strong></p>
+          </div>
+          <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                    document.getElementById("uname").innerText = localStorage.getItem("uname");
+                    document.getElementById("age").innerHTML = localStorage.getItem("age") + " Y " + localStorage.getItem("gender") +" <strong>"+localStorage.getItem("id")+" <strong>";
+                    });
+          </script>
+          <div class="top-in2">
+            <div class="top-ixon"><a href="Vitals.html"><img src="images/home.png"></a></div>
+            <div class="top-ixon"><a href="index.html"><img src="images/signout.png" class="signoutpic"></a></div>
+          </div>
+         
+        </div>
+    </div>
+  </section>
+
+  <section class=" middle middle-measure ">
+
+
+    <div class="measureicon-inn bpp">
+      <div class="measureicon-icon border-rt">
+          <p>Height</p>
+      </div>
+      <div class="measureicon-icon border-rt">
+          <p>Weight</p>
+      </div>
+      <div class="measureicon-icon">
+          <p>BMI</p>
+      </div>
+    </div>
+
+    <div class="measurehead">
+      <div class="mesuresection">
+          <div class="machine-lft"><img src="images/bmianimation.gif"> </div>
+          <div class="desc-rt">
+            <p>Kindly remove your shoes and stand on machine</p>
+            <p>Legs straight, arms on sides, and shoulders level.</p>
+            <p>Look straight ahead, keep line of sight parallel to floor.
+            </p>
+          </div>
+      </div>
+
+      <div class="measuretime">
+          <div class="measuretime-inn">
+              <p>Please hold your head upright upto 3 sec</p>
+          </div>
+          <div class="measuretime-inn">
+              <img src="images/step.gif">
+          </div>
+      </div>
+
+   
+      <div class="inptsection-main">
+        <div class="inptsection-in">
+            <div class="measureinput">
+                <span>Your height is :</span>
+            </div>
+            <div class="measureinput">
+              <span><input type="text" id="height" class="form-control" readonly></span>
+          </div>
+        </div>
+        <div class="inptsection-in">
+            <div class="measureinput">
+                <span>Your weight is :</span>
+            </div>
+            <div class="measureinput">
+              <span><input type="text" id="weight" class="form-control" readonly> </span>
+          </div>
+        </div>
+        <div class="inptsection-in">
+            <div class="measureinput">
+                <span>Your BMI :</span>
+            </div>
+            <div class="measureinput">
+              <span><input type="text" id="bmi" class="form-control" readonly></span>
+          </div>
+        </div>
+    </div>
+       
+      <!-- <div class="btnsection mt-4">
+        <buton class="btnSbmt">Start</buton>
+    </div> -->
+
+    <div class="inptsection-main">
+          <div class="loaderimg">
+              <!-- <h4>Measuring...</h4> -->
+              <img src="images/VitalLoader.gif">
+          </div>
+      </div>
+      <div class="btnsection mt-4">
+        <buton class="btnSbmt" onclick="storeBmi()">Submit</buton>
+        <!-- <buton class="reload" onclick="getBmi()"><i class="fa fa-refresh" aria-hidden="true"></i></buton> -->
+      </div>
+  </div>
+
+  </section>
+
+  <section class="footer">
+    <div class="footer-in">
+      <div class="footer-logo"><img src="images/footerlogo.png"></div>
+      
+      <div class="lang">
+        <div class="ft">
+        <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="images/flag.png">
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+            <li><a class="dropdown-item" href="#"><img src="images/flag.png"></a></li>
+          </ul>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/script.js"></script>
+<script src="js/function.js"></script> 
+<script>
+  setInterval(() => {
+        getBmi()
+        }, 1000);
+</script> 
+</body>
+</html>
+ 

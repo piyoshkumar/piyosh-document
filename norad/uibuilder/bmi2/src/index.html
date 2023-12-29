@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- back   #07102A -->
+<!-- sec #ED9A01 -->
+
+<head>
+    <title>SARVODAYA PATIENT KIOSK</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./css/bootstrap.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="key/jquery.ml-keyboard.css"> -->
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/jquery-3.7.1.min.js"></script>
+    <!-- <script src="key/jquery.ml-keyboard.js"></script> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css"> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script> -->
+
+
+
+
+    <script>
+
+
+
+    </script>
+    <style>
+        body {
+            background-color: #07102A;
+            color: #000;
+            /* background-image: linear-gradient(65deg, #ADDFE8 45%, #fff 55%); */
+            /* Full height */
+            /* height: 100vh; */
+
+            /* Center and scale the image nicely */
+            /* background-position: center; */
+            /* background-repeat: no-repeat; */
+            /* background-size: cover; */
+
+        }
+
+        /* English style */
+        .english {
+            display: ;
+        }
+
+        /* Hindi style */
+        .hindi {
+            display: none;
+        }
+
+        .sec-col {
+            background-color: #ED9A01;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .sec-col:nth-child(3),
+        .sec-col:nth-child(4),
+        .sec-col:nth-child(5) {
+            /* Your CSS styles for the 2nd, 3rd, and 4th elements go here */
+            /* For example, changing the background color and font color */
+            border-radius: 40px 40px;
+        }
+
+        .power-by {
+            position: fixed;
+            bottom: -25px;
+            z-index: 9999;
+            background-color: rgb(84, 50, 238);
+            color: azure;
+            text-align: center;
+            height: 25px;
+            width: 100vw;
+            transition: bottom 0.5s ease;
+
+        }
+
+        .power-by:hover {
+            bottom: 0px;
+            /* On hover, move the footer to bottom: 0px */
+            transform: translateY(0px);
+        }
+
+        .power-btn {
+            position: absolute;
+            bottom: 25px;
+            left: 35%;
+            background-color: rgb(84, 50, 238);
+            width: 135px;
+            margin: auto;
+            border-radius: 15px 15px 0px 0px;
+            opacity: 0.5;
+            z-index: 10000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .power-by:hover .power-btn {
+            opacity: 1;
+            /* On hover of .power-by, set the opacity of .power-btn to 1 */
+        }
+
+        .form-control:focus+.form-label {
+            color: #000;
+        }
+
+        select option {
+            background-color: #07102A !important;
+            color: #fff !important;
+        }
+
+        li {
+            background-color: #ED9A01aa !important;
+            color: #000 !important;
+            border-bottom: #000 !important;
+            font-weight: 600;
+
+        }
+
+        ul {
+            padding-left: 70px !important;
+            padding-right: 70px !important;
+            border-radius: 50px;
+        }
+
+        .tour {
+            background-color: rgb(84, 50, 238);
+            position: fixed;
+            bottom: 25%;
+            color: #fff;
+            padding: 10px;
+            border-radius: 0px 20px 20px 0px;
+            z-index: 9999;
+        }
+
+        .hold {
+            background-color: rgb(84, 50, 238);
+            position: fixed;
+            bottom: 15%;
+            color: #fff;
+            padding: 10px;
+            border-radius: 0px 20px 20px 0px;
+            z-index: 9999;
+        }
+
+        .lan {
+            background-color: rgb(84, 50, 238);
+            position: fixed;
+            bottom: 25%;
+            right: 5px;
+            color: #fff;
+            padding: 10px;
+            border-radius: 20px 0px 0px 20px;
+            z-index: 9999;
+        }
+
+        .keyboard-container {
+            display: none;
+            position: absolute;
+            top: 250px;
+            background-color: #fff;
+            /* display: flex; */
+            flex-wrap: wrap;
+        }
+
+        .keyboard-key {
+            width: 37px;
+            height: 37px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .keyboard-container-num {
+            display: none;
+            position: absolute;
+            top: 250px;
+            background-color: #fff;
+            /* display: flex; */
+            flex-wrap: wrap;
+            width: 50%;
+            left: 20%
+        }
+
+        .keyboard-key-num {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            font-size: xx-large;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .keyboard-container-num3 {
+            display: none;
+            position: absolute;
+            top: 250px;
+            background-color: #fff;
+            /* display: flex; */
+            flex-wrap: wrap;
+            width: 50%;
+            left: 20%
+        }
+
+        .keyboard-key-num3 {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            font-size: xx-large;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .keyboard-container-num4 {
+            display: none;
+            position: absolute;
+            top: 250px;
+            background-color: #fff;
+            /* display: flex; */
+            flex-wrap: wrap;
+            width: 50%;
+            left: 20%
+        }
+
+        .keyboard-key-num4 {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            font-size: xx-large;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .keyboard-container-num5 {
+            display: none;
+            position: absolute;
+            top: 250px;
+            background-color: #07102A;
+            /* display: flex; */
+            flex-wrap: wrap;
+            width: 62%;
+            left: 15%;
+            border-radius: 20px 20px;
+            padding: 10px;
+        }
+
+        .keyboard-key-num5 {
+            width: 115px;
+            height: 90px;
+            display: flex;
+            font-size: xx-large;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            margin: auto;
+            cursor: pointer;
+            border-radius: 25px 25px;
+            background-color: #ED9A01;
+        }
+
+        /* Style for the transparent overlay
+                .modal.fade .modal-dialog.modal-fullscreen {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                }
+                
+                .modal.fade .modal-content {
+                background: rgba(0, 0, 0, 0.5); 
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                } */
+
+        /* .modal.fade .modal-body {
+                padding: 0;
+                } */
+
+        /* Style for the close button */
+        /* Red close button */
+        /* .modal.fade .btn-close {
+                color: red; 
+                font-size: 24px;
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                background: rgba(0, 0, 0, 0.5); 
+                border: none;
+                border-radius: 50%;
+                width: 35px;
+                height: 35px;
+                } */
+    </style>
+</head>
+
+<body>
+    <!-- top header -->
+    <div class="container-fluid text-center  sec-col fixed-top" style="background-color:#5432EE !important;">
+        <div class="row">
+            <div class="col-3"><img src="logo.png" alt="Logo"
+                    style="width: 100%; height: 35px; padding-top:5px;border-color:#fff;"></div>
+            <div class="col-6 text-center">
+                <h1 class="english">PATIENT KIOSK</h1>
+                <h1 class="hindi">पेशेंट कियोस्क </h1>
+            </div>
+            <div class="col-3">21-09-2023<br>12:05:21</div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid text-white text-center mt-5">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="form-floating">
+                    <input type="text" class="form-control input_custom" id="floatingInput-1"
+                        placeholder="WhatsApp Number" data-key="mobile" data-val="9876543210"
+                        style="color:#fff; background-color: transparent;border-top: transparent;border-left: transparent;border-right: transparent; border-radius: 0;">
+                    <label for="floatingInput-1" class=" english">Enter the WhatsApp Number</label>
+                    <label for="floatingInput-1" class="hindi">व्हाट्सएप नंबर दर्ज करें</label>
+                </div>
+                <!-- <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">WhatsApp</span>
+                    <input class="form-control" type="text" id="name" name="name" placeholder="Enter Mobile Number">
+                </div> -->
+            </div>
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control input_custom" id="floatingInput-2"
+                        placeholder="Enter Patient Name" data-key="uname" data-val="Criterion"
+                        style="color:#fff;background-color: transparent;border-top: transparent;border-left: transparent;border-right: transparent; border-radius: 0;">
+                    <label for="floatingInput-2 " class="english">Enter Patient Name</label>
+                    <label for="floatingInput-2 " class="hindi">रोगी का नाम दर्ज करें</label>
+                </div>
+                <!-- <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">Name</span>
+                <input class="form-control" type="text" id="name" name="name" placeholder="Enter Patient Name">
+                </div> -->
+            </div>
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control input_custom" id="floatingInput-3" placeholder="PID"
+                        data-key="pid" data-val="1234567"
+                        style=" color:#fff;   background-color: transparent;border-top: transparent;border-left: transparent;border-right: transparent; border-radius: 0;">
+                    <label for="floatingInput-3" class=" english">Enter Patient PID</label>
+                    <label for="floatingInput-3" class=" hindi">रोगी पी0आई0डी0 ​​दर्ज करें</label>
+                </div>
+
+                <!-- <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">PID</span>
+                              <input class="form-control" type="text" id="name" name="name" placeholder="Enter PID">
+                    </div> -->
+            </div>
+            <div class="p-1"></div>
+            <div class="col-6">
+
+                <div class="form-floating">
+                    <input type="text" class="form-control input_custom" id="floatingSelect-4" placeholder="AGE"
+                        data-key="age" data-val="7"
+                        style=" color:#fff;   background-color: transparent;border-top: transparent;border-left: transparent;border-right: transparent; border-radius: 0;">
+                    <label class="english" for="floatingSelect-4">Select Patient Age</label>
+                    <label class="hindi" for="floatingSelect-4">रोगी की आयु चुनें</label>
+                </div>
+            </div>
+            <!-- <div class="p-1"></div> -->
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control input_custom" id="floatingSelect-5" placeholder="gender"
+                        data-key="gender" data-val="1"
+                        style=" color:#fff;   background-color: transparent;border-top: transparent;border-left: transparent;border-right: transparent; border-radius: 0;">
+
+                    <label class="english" for="floatingSelect-5">Select Patient Gender</label>
+                    <label class="hindi" for="floatingSelect-5">रोगी का लिंग चुनें</label>
+                </div>
+            </div>
+
+            <div class="p-1"></div>
+
+        </div>
+    </div>
+    <!-- top header -->
+
+    <!-- medile bodypart -->
+
+    <div class="container-fluid mt-1 sec-col0">
+        <div class="row">
+            <div class="col-7 text-center border border-info rounded-pill sec-col"
+                style="border-radius: 50rem 0 0 50rem !important;">
+                <div class="row">
+                    <div class="col-5">
+                        <h3 class="english" style="font-weight:900;">Height</h3>
+                        <h3 class="hindi" style="font-weight: 900; display: none;">लंबाई</h3>
+                    </div>
+                    <div class="col-7">
+                        <h1 id="h" style="font-weight:900;">180 cm</h1>
+                    </div>
+                    <div class="col-5">
+                        <h3 class="english" style="font-weight:900;">Weight</h3>
+                        <h3 class="hindi" style="font-weight: 900; display: none;">वजन</h3>
+                    </div>
+                    <div class="col-7">
+                        <h1 id="w" style="font-weight:900;">70.52 Kg</h1>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-4 text-center"> -->
+            <!-- </div> -->
+            <div class="col-5 text-center  border border-info rounded-pill sec-col bmi-color"
+                style="border-radius: 0 50rem 50rem 0 !important;" id="bmi-color">
+                <h3 class="english" style="font-weight:900;">BMI</h3>
+                <h3 class="hindi" style="font-weight: 900; display: none;">बॉडी मास इंडेक्स</h3>
+                <h1 id="bmi" style="font-weight:900;">0 kg/m<sup>2</sup></h1>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid mt-1 sec-col">
+        <div class="row">
+            <div class="col-6 text-center">
+                <h3 style="font-weight:900;">SpO<sub>2</sub></h3>
+                <h1 id="spo2" style="font-weight:900;">99 %</h1>
+            </div>
+            <div class="col-6 text-center">
+                <h3 class="english" style="font-weight:900;">Pulse Rate</h3>
+                <h3 class="hindi" style="font-weight:900;">पल्स रेट</h3>
+                <h1 id="pr" style="font-weight:900;">70 bpm</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-1 sec-col">
+        <div class="row">
+            <div class="col-6 text-center">
+                <h1 class="english" style="font-weight:900;">Blood Pressure</h1>
+                <h1 class="hindi" style="font-weight:900;">रक्तचाप</h1>
+                <h3 style="font-weight:900;">Sys/Dia</h3>
+                <!-- <h5>138 </h5> -->
+            </div>
+            <div class="col-6 text-center">
+                <h3 style="color: transparent;" style="font-weight:900;">Sys/Dia(mmHg)</h3>
+                <h1 style="font-weight:900;"><label id="sys">170</label>/<label id="dia">170</label> mmHg</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="mt-2" style="color: #fff; background-color:transparent;">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <lable class="english">
+                        Body Fat
+                    </lable>
+                    <label class="hindi">
+                        शारीरिक वसा (Fat)
+                    </label>
+                    <span class="" id="bfp">70%</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <lable class="english">
+                        Basal Metabolic Rate
+                    </lable>
+                    <lable class="hindi">आधारीय चयापचयी दर(BMR)</lable>
+                    <span class="" id="bmr">1750kcl</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <lable class="english">
+                        Total Body Water
+                    </lable>
+                    <lable class="hindi">कुल शारीरिक जल</lable>
+                    <span class="" id="tbw">102 ltr</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <lable class="english">
+                        Lean Body Mass
+                    </lable>
+                    <lable class="hindi">लीन शारीरिक मास</lable>
+                    <span class="" id="lbm">70 kg</span>
+                </li>
+            </ul>
+
+            <!-- Estimated Parameters (Approx)  -->
+
+        </div>
+    </div>
+    <!-- medile bodypart -->
+
+    <!-- bottom -->
+    <div class="container-fluid mt-1 p-2 sec-col fixed-bottom">
+        <div class="row">
+            <div class="col-6 text-center border  border-info rounded-pill" onclick="uibuilder.eventSend(event)"
+                data-key="Send" data-val="1" data-bs-toggle="modal" data-bs-target="#successModal">
+                <h1><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
+                        class="bi bi-printer" viewBox="0 0 16 16">
+                        <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+                        <path
+                            d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+                    </svg></h1>
+            </div>
+            <div class="col-6 text-center border  border-info rounded-pill" data-bs-toggle="modal"
+                data-bs-target="#settingsModal">
+                <h1><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-settings">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg></h1>
+            </div>
+        </div>
+    </div>
+    <!-- tour button -->
+    <div class="tour" data-bs-toggle="modal" data-bs-target="#imageModal">
+        <div class="english">
+            Help
+        </div>
+        <div class="hindi">
+            मदद
+        </div>
+
+    </div>
+    <!-- language -->
+    <!-- tour button -->
+    <div class="lan" onclick="uibuilder.eventSend(event); window.location.reload();" data-key="lang" data-val="1"
+        onblur="window.location.reload();">
+        <div class="english">
+            हिन्दी
+        </div>
+        <div class="hindi">
+            English
+        </div>
+
+    </div>
+    <div class="hold" id="hold2" onclick="uibuilder.eventSend(event)" data-key="hold" data-val="1">
+        <div class="english hold2">
+            Hold
+        </div>
+        <div class="hindi hold2">
+            रोकें
+        </div>
+
+    </div>
+
+
+    <!-- The Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header (optional) -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Image Carousel Modal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <!-- Embed the Image Carousel Here -->
+                    <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <!-- Slides -->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVytvhNkRUJTEyXOle4aCvaRWLzWnFnHnP8g&usqp=CAU"
+                                    class="d-block w-80" alt="Image 1">
+                                <div class="carousel-caption">
+                                    <h3>Caption for Image 1</h3>
+                                    <p>Description for Image 1</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="carousel-caption">
+                                    <h3>Caption for Image 2</h3>
+                                    <p>Description for Image 2</p>
+                                </div>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVytvhNkRUJTEyXOle4aCvaRWLzWnFnHnP8g&usqp=CAU"
+                                    class="d-block w-100" alt="Image 2" style="opacity: 0;">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVytvhNkRUJTEyXOle4aCvaRWLzWnFnHnP8g&usqp=CAU"
+                                    class="d-block w-100" alt="Image 2">
+                                <div class="carousel-caption">
+                                    <h3>Caption for Image 3</h3>
+                                    <p>Description for Image 2</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVytvhNkRUJTEyXOle4aCvaRWLzWnFnHnP8g&usqp=CAU"
+                                    class="d-block w-100" alt="Image 2">
+                                <div class="carousel-caption">
+                                    <h3>Caption for Image 4</h3>
+                                    <p>Description for Image 2</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVytvhNkRUJTEyXOle4aCvaRWLzWnFnHnP8g&usqp=CAU"
+                                    class="d-block w-100" alt="Image 2">
+                                <div class="carousel-caption">
+                                    <h3>Caption for Image 5</h3>
+                                    <p>Description for Image 2</p>
+                                </div>
+                            </div>
+                            <!-- Add more slides as needed -->
+                        </div>
+                        <!-- Left and Right Navigation Arrows -->
+                        <a class="carousel-control-prev" href="#imageCarousel" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#imageCarousel" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Modal Footer (optional) -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Success Message Popup (Modal) -->
+    <!-- Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #7E6FA6;color:#fff;">
+                    <h5 class="modal-title" id="exampleModalLabel">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background-image: linear-gradient(65deg, #ADDFE8 4%, #fff 55%);">
+                    <p>Your data was sent successfully.</p>
+                    <p>Please Wait For Print....</p>
+                </div>
+                <div class="modal-footer" style="background-color: #7E6FA6;color:#fff;">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        style="width:100px;">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="keyboard-container" id="customKeyboard">
+        <div class="keyboard-key" data-vals="Q">Q</div>
+        <div class="keyboard-key" data-vals="W">W</div>
+        <div class="keyboard-key" data-vals="E">E</div>
+        <div class="keyboard-key" data-vals="R">R</div>
+        <div class="keyboard-key" data-vals="T">T</div>
+        <div class="keyboard-key" data-vals="Y">Y</div>
+        <div class="keyboard-key" data-vals="U">U</div>
+        <div class="keyboard-key" data-vals="I">I</div>
+        <div class="keyboard-key" data-vals="O">O</div>
+        <div class="keyboard-key" data-vals="P">P</div>
+        <div class="keyboard-key" data-vals="A">A</div>
+        <div class="keyboard-key" data-vals="S">S</div>
+        <div class="keyboard-key" data-vals="D">D</div>
+        <div class="keyboard-key" data-vals="F">F</div>
+        <div class="keyboard-key" data-vals="G">G</div>
+        <div class="keyboard-key" data-vals="H">H</div>
+        <div class="keyboard-key" data-vals="J">J</div>
+        <div class="keyboard-key" data-vals="K">K</div>
+        <div class="keyboard-key" data-vals="L">L</div>
+        <div class="keyboard-key" data-vals="enter" id="uname" data-key="uname" data-val="Criterion">↵</div>
+        <div class="keyboard-key" data-vals="Z">Z</div>
+        <div class="keyboard-key" data-vals="X">X</div>
+        <div class="keyboard-key" data-vals="C">C</div>
+        <div class="keyboard-key" data-vals="V">V</div>
+        <div class="keyboard-key" data-vals="B">B</div>
+        <div class="keyboard-key" data-vals="N">N</div>
+        <div class="keyboard-key" data-vals="M">M</div>
+        <div class="keyboard-key" data-vals="back">⌫</div>
+        <div class="keyboard-key" data-vals=" " style="width: 100px;">SPACE</div>
+        <div class="keyboard-key" data-vals="clear" style="width: 70px;">CLEAR</div>
+        <div class="keyboard-key" data-vals="close" style="width: 70px;">CLOSE</div>
+        <!-- Add more alphabet keys as needed -->
+    </div>
+    <div class="keyboard-container-num" id="customKeyboardnum">
+        <div class="keyboard-key-num" data-vals="1">1</div>
+        <div class="keyboard-key-num" data-vals="2">2</div>
+        <div class="keyboard-key-num" data-vals="3">3</div>
+        <div class="keyboard-key-num" data-vals="4">4</div>
+        <div class="keyboard-key-num" data-vals="5">5</div>
+        <div class="keyboard-key-num" data-vals="6">6</div>
+        <div class="keyboard-key-num" data-vals="7">7</div>
+        <div class="keyboard-key-num" data-vals="8">8</div>
+        <div class="keyboard-key-num" data-vals="9">9</div>
+        <div class="keyboard-key-num" data-vals="0">0</div>
+        <div class="keyboard-key-num" id="mobiles" data-vals="enter" data-key="mobile" data-val="9876543210">↵</div>
+        <div class="keyboard-key-num" data-vals="back">⌫</div>
+        <!-- Add more alphabet keys as needed -->
+    </div>
+    <div class="keyboard-container-num3" id="customKeyboardnum3">
+        <div class="keyboard-key-num3" data-vals="1">1</div>
+        <div class="keyboard-key-num3" data-vals="2">2</div>
+        <div class="keyboard-key-num3" data-vals="3">3</div>
+        <div class="keyboard-key-num3" data-vals="4">4</div>
+        <div class="keyboard-key-num3" data-vals="5">5</div>
+        <div class="keyboard-key-num3" data-vals="6">6</div>
+        <div class="keyboard-key-num3" data-vals="7">7</div>
+        <div class="keyboard-key-num3" data-vals="8">8</div>
+        <div class="keyboard-key-num3" data-vals="9">9</div>
+        <div class="keyboard-key-num3" data-vals="0">0</div>
+        <div class="keyboard-key-num3" data-vals="enter" id="pid" data-key="pid" data-val="1234567">↵</div>
+        <div class="keyboard-key-num3" data-vals="back">⌫</div>
+        <!-- Add more alphabet keys as needed -->
+    </div>
+    <div class="keyboard-container-num4" id="customKeyboardnum4">
+        <div class="keyboard-key-num4" data-vals="1">1</div>
+        <div class="keyboard-key-num4" data-vals="2">2</div>
+        <div class="keyboard-key-num4" data-vals="3">3</div>
+        <div class="keyboard-key-num4" data-vals="4">4</div>
+        <div class="keyboard-key-num4" data-vals="5">5</div>
+        <div class="keyboard-key-num4" data-vals="6">6</div>
+        <div class="keyboard-key-num4" data-vals="7">7</div>
+        <div class="keyboard-key-num4" data-vals="8">8</div>
+        <div class="keyboard-key-num4" data-vals="9">9</div>
+        <div class="keyboard-key-num4" data-vals="0">0</div>
+        <div class="keyboard-key-num4" data-vals="enter" id="agess" data-key="age" data-val="25">↵</div>
+        <div class="keyboard-key-num4" data-vals="back">⌫</div>
+        <!-- Add more alphabet keys as needed -->
+    </div>
+    <div class="keyboard-container-num5" id="customKeyboardnum5">
+        <div class="keyboard-key-num5 english" data-key="gender" data-val="1">Male</div>
+        <div class="keyboard-key-num5 english" data-key="gender" data-val="0">Female</div>
+        <div class="keyboard-key-num5 hindi" data-key="gender" data-val="1">पुरुष</div>
+        <div class="keyboard-key-num5 hindi" data-key="gender" data-val="0">महिला</div>
+        <!-- Add more alphabet keys as needed -->
+    </div>
+    <!-- setting popup -->
+    <!-- Modal dialog -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: #07102A; color: #fff;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupSelect01">WI-FI</label>
+                            <select class="form-select" id="inputGroupSelect01">
+                                <option selected></option>
+                                <option value="ERAS_MEDICAL_COLLEGE">ERAS_MEDICAL_COLLEGE</option>
+                                <option value="2">Bio-medical</option>
+                                <option value="3">DIRECT-9C-EPSON-863092</option>
+                            </select>
+                            <button class="btn btn-outline-primary" type="button" id="connectButton">Connect</button>
+                        </div>
+                    </div>
+                    <style>
+                        /* Style for the custom prompt */
+                        #customPrompt {
+                            display: none;
+                            position: fixed;
+                            top: 40%;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background-color: rgba(0, 0, 0, 0.5);
+                            justify-content: center;
+                            align-items: center;
+                            z-index: 1000;
+                        }
+
+                        .custom-modal {
+                            background-color: #07102A;
+                            padding: 20px;
+                            border-radius: 5px;
+                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                            text-align: center;
+                        }
+                    </style>
+                    <!-- Custom prompt dialog -->
+                    <div id="customPrompt">
+                        <div class="custom-modal">
+                            <p>Enter the password for <span id="selectedWifi"></span>:</p>
+                            <input type="password" id="passwordInput" class="form-control mb-3">
+                            <button class="btn btn-primary" id="customPromptSubmit">Submit</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="container">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupSelect01">Select Theme Setting</label>
+                            <select class="form-select" id="inputGroupSelect01">
+                                <option value="1" selected>Default</option>
+                                <option value="2">Light</option>
+                                <option value="3">Dark</option>
+                            </select>
+                            <button class="btn btn-outline-primary" type="button">Connect</button>
+                        </div>
+                    </div>
+                    <!-- <label for="whatsapp">WhatsApp Integration:</label>
+                    <input type="checkbox" id="whatsapp"> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Define an object to store Wi-Fi credentials
+        const wifiCredentials = {};
+        // const Keyboard = window.SimpleKeyboard.default;
+        // // const myKeyboard = new Keyboard({
+        // //     onChange: input => onChange(input),
+        // //     onKeyPress: button => onKeyPress(button)
+        // // });
+        // function onChange(input) {
+        //     document.querySelector("#passwordInput").value = input;
+        //     console.log("Input changed", input);
+
+        // }
+        // function onKeyPress(button) {
+        //     console.log("Button pressed", button);
+        // }
+        // Add an event listener to the connect button using jQuery
+        $('#connectButton').on('click', function () {
+            // Get the selected Wi-Fi network value
+            const selectedWifi = $('#inputGroupSelect01').val();
+            $('#selectedWifi').text(selectedWifi);
+
+            // Show the custom prompt
+            $('#customPrompt').show();
+        });
+
+        // Initialize Simple-keyboard
+        // const keyboard = new Keyboard({
+        //     onChange: (input) => handleInputChange(input),
+        // });
+
+        // Handle keyboard input changes
+        function handleInputChange(input) {
+            document.getElementById("passwordInput").value = input;
+        }
+
+        // Handle custom prompt submission
+        $('#customPromptSubmit').on('click', function () {
+            // Get the password input value
+            const password = $('#passwordInput').val();
+
+            if (password) {
+                // Store the Wi-Fi credentials in the object
+                wifiCredentials.ssid = $('#selectedWifi').text();
+                wifiCredentials.password = password;
+
+                // Convert the object to JSON
+                const wifiJson = JSON.stringify(wifiCredentials);
+
+                // You can send the JSON data to your server or use it as needed
+                console.log('Wi-Fi Credentials (JSON):', wifiJson);
+                alert('Wi-Fi credentials saved.');
+
+                // Hide the custom prompt
+                $('#customPrompt').hide();
+            } else {
+                alert('Please enter a password.');
+            }
+        });
+    </script>
+    <div id="keyboard"></div>
+
+    <!-- bottom -->
+    <div class="container-fluid">
+    <div class="power-by row">
+    <div class="power-btn col-12">Powered By:</div>
+    <div class="col-3" id="network"><img src="network/0.png" class="float-start mx-auto" style="height:20px;padding-top:5px;"></div>
+    <div class="col-6">Criterion Technologies.</div>
+    <div class="col-3" id="ips" style="opacity:0.2;">172.16.05.4</div>
+    </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".power-btn").hover(function () {
+                // $(this).css("opacity","1")
+            })
+            $(".lan").click(function () {
+                $(".hindi").toggle()
+                $(".english").toggle()
+            })
+
+            const $inputElement = $("#floatingInput-2");
+            const $inputElementnum = $("#floatingInput-1");
+            const $inputElementnum3 = $("#floatingInput-3");
+            const $inputElementnum4 = $("#floatingSelect-4");
+            const $inputElementnum5 = $("#floatingSelect-5");
+            const $keyboardContainer = $("#customKeyboard");
+            const $keyboardContainernum = $("#customKeyboardnum");
+            const $keyboardContainernum3 = $("#customKeyboardnum3");
+            const $keyboardContainernum4 = $("#customKeyboardnum4");
+            const $keyboardContainernum5 = $("#customKeyboardnum5");
+
+
+            function setupKeyboard() {
+                $inputElement.on("focus", function () {
+                    $keyboardContainer.css("display", "flex");
+                });
+
+                // Hide the keyboard when you click anywhere outside of it
+                $(document).on("click", function (event) {
+                    if (!$keyboardContainer.is(event.target) && !$keyboardContainer.has(event.target).length &&
+                        !$inputElement.is(event.target)) {
+                        $keyboardContainer.css("display", "none");
+                    }
+                });
+            }
+            function setupKeyboardnum() {
+                $inputElementnum.on("focus", function () {
+                    $keyboardContainernum.css("display", "flex");
+                });
+
+                // Hide the keyboard when you click anywhere outside of it
+                $(document).on("click", function (event) {
+                    if (!$keyboardContainernum.is(event.target) && !$keyboardContainernum.has(event.target).length &&
+                        !$inputElementnum.is(event.target)) {
+                        $keyboardContainernum.css("display", "none");
+                    }
+                });
+            }
+            function setupKeyboardnum3() {
+                $inputElementnum3.on("focus", function () {
+                    $keyboardContainernum3.css("display", "flex");
+                });
+
+                // Hide the keyboard when you click anywhere outside of it
+                $(document).on("click", function (event) {
+                    if (!$keyboardContainernum3.is(event.target) && !$keyboardContainernum3.has(event.target).length &&
+                        !$inputElementnum3.is(event.target)) {
+                        $keyboardContainernum3.css("display", "none");
+                    }
+                });
+            }
+            let $inputCleared = false;
+            function setupKeyboardnum4() {
+                $inputElementnum4.on("focus", function () {
+                    // $inputElementnum4.val("")
+                    $keyboardContainernum4.css("display", "flex");
+                });
+
+                // Hide the keyboard when you click anywhere outside of it
+                $(document).on("click", function (event) {
+                    if (!$keyboardContainernum4.is(event.target) && !$keyboardContainernum4.has(event.target).length &&
+                        !$inputElementnum4.is(event.target)) {
+                        $keyboardContainernum4.css("display", "none");
+                    }
+                });
+
+            }
+            function setupKeyboardnum5() {
+                $inputElementnum5.val("")
+                $inputElementnum5.on("focus", function () {
+                    $keyboardContainernum5.css("display", "flex");
+                });
+
+                // Hide the keyboard when you click anywhere outside of it
+                $(document).on("click", function (event) {
+                    if (!$keyboardContainernum5.is(event.target) && !$keyboardContainernum5.has(event.target).length &&
+                        !$inputElementnum5.is(event.target)) {
+                        $keyboardContainernum5.css("display", "none");
+                    }
+                });
+
+            }
+            setupKeyboard();
+            setupKeyboardnum();
+            setupKeyboardnum3();
+            setupKeyboardnum4();
+            setupKeyboardnum5();
+            $("#floatingInput-2").on("focus", setupKeyboard);
+            $("#floatingInput-1").on("focus", setupKeyboardnum);
+            $("#floatingInput-3").on("focus", setupKeyboardnum3);
+            $("#floatingInput-4").on("focus", setupKeyboardnum4);
+            $("#floatingInput-5").on("focus", setupKeyboardnum5);
+            $(".keyboard-key").click(function () {
+                var char = $(this).attr('data-vals');
+                if (char === "enter") {
+                    event.preventDefault();
+                    uibuilder.eventSend(event)
+                    $inputElement.blur();
+                    $keyboardContainer.css("display", "none");
+                } else if (char === "clear") {
+                    $inputElement.val('');
+                    $inputElement.focus(); // Keep the input focused after clearing the value
+                } else if (char === "back") {
+                    var data = $inputElement.val();
+                    data = data.slice(0, -1);
+                    $inputElement.val(data)
+                    $inputElement.focus(); // Keep the input focused after clearing the value
+                } else if (char === "close") {
+                    event.preventDefault();
+                    $inputElement.blur();
+                    $keyboardContainer.css("display", "none");
+                } else {
+                    $inputElement.val($inputElement.val() + char);
+                    $("#uname").attr("data-val", $inputElement.val())
+                    $inputElement.focus(); // Keep the input focused after adding a character
+                }
+
+            })
+            $(".keyboard-key-num").click(function () {
+                var char = $(this).attr('data-vals');
+                if (char === "enter") {
+                    // $("#floatingInput-1").attr("data-val",$inputElementnum.val())
+                    uibuilder.eventSend(event)
+
+                    event.preventDefault();
+                    $inputElementnum.blur();
+                    $keyboardContainernum.css("display", "none");
+                } else if (char === "back") {
+                    var data = $inputElementnum.val();
+                    data = data.slice(0, -1);
+                    $inputElementnum.val(data)
+                    $inputElementnum.focus(); // Keep the input focused after clearing the value
+                } else {
+                    $inputElementnum.val($inputElementnum.val() + char);
+                    $("#mobiles").attr("data-val", $inputElementnum.val())
+                    $inputElementnum.focus(); // Keep the input focused after adding a character
+                }
+
+            })
+            $(".keyboard-key-num3").click(function () {
+                var char = $(this).attr('data-vals');
+                if (char === "enter") {
+                    event.preventDefault();
+                    uibuilder.eventSend(event)
+                    $inputElementnum3.blur();
+                    $keyboardContainernum3.css("display", "none");
+                } else if (char === "back") {
+                    var data = $inputElementnum3.val();
+                    data = data.slice(0, -1);
+                    $inputElementnum3.val(data)
+                    $inputElementnum3.focus(); // Keep the input focused after clearing the value
+                } else {
+                    $inputElementnum3.val($inputElementnum3.val() + char);
+                    $("#pid").attr("data-val", $inputElementnum3.val())
+                    $inputElementnum3.focus(); // Keep the input focused after adding a character
+                }
+
+            })
+            $(".keyboard-key-num4").click(function () {
+                var char = $(this).attr('data-vals');
+                if (char === "enter") {
+                    event.preventDefault();
+                    uibuilder.eventSend(event);
+                    $inputElementnum4.blur();
+                    $keyboardContainernum4.css("display", "none");
+                } else if (char === "back") {
+                    var data = $inputElementnum4.val();
+                    data = data.split(" ")
+                    data[0] = data[0].slice(0, -1);
+                    $inputElementnum4.val(data[0] + " " + data[1])
+                    $inputElementnum4.focus(); // Keep the input focused after clearing the value
+                } else {
+                    if ($inputElementnum4.val() == "") {
+                        const $element = $(".hindi"); // Use your own selector
+                        if ($element.css("display") === "none") {
+                            $inputElementnum4.val(" years");
+                        } else {
+                            $inputElementnum4.val(" वर्ष");
+
+                        }
+                    }
+                    var data = $inputElementnum4.val().split(" ")
+                    $inputElementnum4.val(data[0] + char + " " + data[1]);
+                    $("#agess").attr("data-val", data[0] + char)
+                    $inputElementnum4.focus(); // Keep the input focused after adding a character
+                }
+
+            })
+            $(".keyboard-key-num5").click(function () {
+                var char = $(this).text();
+                $inputElementnum5.val(char);             // Keep the input focused after adding a character
+                uibuilder.eventSend(event);
+                event.preventDefault();
+                $inputElementnum5.blur();
+                $keyboardContainernum5.css("display", "none");
+            })
+
+
+        })
+
+
+
+    </script>
+
+    <!-- <button onclick="fnSendToNR('A message from the sharp end!')">Send a msg back to Node-RED</button> -->
+    <!-- <button onclick="uibuilder.eventSend(event)" data-type="eventSend" data-foo="Bah">eventSend</button> -->
+    <!-- <pre id="msg" class="syntax-highlight">Waiting for a message from Node-RED</pre> -->
+
+    <!-- #region Supporting Scripts. These MUST be in the right order. Note no leading / -->
+    <script src="../uibuilder/vendor/socket.io/socket.io.js">/* REQUIRED: Socket.IO is loaded only once for all instances. Without this, you don't get a websocket connection */</script> -->
+    <script src="../uibuilder/uibuilderfe.min.js">/* REQUIRED: remove 'min.' to use dev version */</script>
+    <script src="./index.js">/* OPTIONAL: Put your custom code in that */</script> -->
+    <!-- #endregion -->
+</body>
+
+</html>
